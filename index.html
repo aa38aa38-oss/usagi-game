@@ -118,9 +118,10 @@ function resize() {
   height = container.clientHeight;
   canvas.width = width;
   canvas.height = height;
+  if (player) {
+    player.y = height - 240;
+  }
 }
-resize();
-window.addEventListener('resize', resize);
 
 let gameState = 'STORY';
 let level = 1;
@@ -162,11 +163,14 @@ for (let i = 0; i < 50; i++) {
 }
 
 const player = {
-  x: width / 2,
-  y: height - 120,
+  x: 240,
+  y: 500,
   radius: 26,
-  targetX: width / 2
+  targetX: 240
 };
+
+resize();
+window.addEventListener('resize', resize);
 
 let items = [];
 let spawnTimer = 0;
