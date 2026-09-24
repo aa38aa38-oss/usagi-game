@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>特務烏薩奇：月球大冒險</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #0b0c10;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    #game-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      max-width: 480px;
+      margin: 0 auto;
+      overflow: hidden;
+      background: #000;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    #ui-layer {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      right: 15px;
+      display: flex;
+      justify-content: space-between;
+      color: #fff;
+      font-size: 18px;
+      font-weight: bold;
+      text-shadow: 0 0 8px rgba(0,0,0,0.8);
+      pointer-events: none;
+    }
+    #story-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 15, 30, 0.92);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 30px;
+      color: #fff;
+      text-align: center;
+      z-index: 10;
+    }
+    #story-title {
+      font-size: 24px;
+      color: #ffd700;
+      margin-bottom: 20px;
+    }
+    #story-text {
+      font-size: 16px;
+      line-height: 1.8;
+      margin-bottom: 30px;
+      color: #e0e0e0;
+    }
+    .action-btn {
+      background: linear-gradient(135deg, #ff9800, #f44336);
+      color: white;
+      border: none;
+      padding: 14px 36px;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 30px;
+      box-shadow: 0 4px 15px rgba(255, 152, 0, 0.4);
+      cursor: pointer;
+    }
+    .action-btn:active {
+      transform: scale(0.96);
+    }
+  </style>
+</head>
+<body>
+
+<div id="game-container">
+  <canvas id="gameCanvas"></canvas>
+  
+  <div id="ui-layer">
+    <div id="score-text">分數: 0</div>
+    <div id="level-text">關卡: 1/3</div>
+    <div id="hp-text">生命: ❤️❤️❤️</div>
+  </div>
+
+  <div id="story-overlay">
+    <h2 id="story-title">特務烏薩奇出擊</h2>
+    <p id="story-text">君王命令特務烏薩奇前往月球追討仙藥，並承諾給予極品蛋黃酥作為報酬！準備出發衝出大氣層！</p>
+    <button id="story-btn" class="action-btn">開始出發</button>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+const container = document.getElementById('game-container');
+
+let width, height;
+function resize() {
+  width = container.clientWidth;
+  height = container.clientHeight;
+  canvas.width = width;
+  canvas.height = height;
+}
+resize();
+window.addEventListener('resize', resize);
+
+let gameState = 'STORY';
+let level = 1;
+let score = 0;
+let hp = 3;
+let targetScore = 500;
+
+const stories = {
+  1: {
+    title: "第一關：衝出大氣層",
+    text: "人間君王：『烏薩奇！嫦娥偷了不死藥逃往月球，速速把她拿下！事成後賞你極品金沙蛋黃酥！』烏薩奇為了吃，全速向星空衝刺！",
+    btn: "全力衝刺！"
+  },
+  2: {
+    title: "第二關：月球降落與反轉",
+    text: "烏薩奇聯絡君王討訂金月餅，君王卻已讀不回！降落月球後，嫦娥端出滿滿的桂花冰皮月餅招待：『暴君殘暴才逼得我逃亡...』烏薩奇吃得心花怒放，當場決定倒戈！",
+    btn: "加入嫦娥陣營"
+  },
+  3: {
+    title: "第三關：大軍反攻地球",
+    text: "嫦娥統一月球，封烏薩奇為月兔大將軍！烏薩奇換上元帥披風，率領月兔戰艦大軍衝破封鎖線，朝著人間暴君王城發動總攻擊！",
+    btn: "月兔軍團，進攻！"
+  },
+  win: {
+    title: "大獲全勝！",
+    text: "烏薩奇帶領大軍成功踏平暴君王城！所有的月餅與美食全部歸月兔軍團所有！烏薩奇發出了勝利的怪叫聲：『呀哈——！』",
+    btn: "再玩一次"
+  }
+};
+
+let stars = [];
+for (let i = 0; i < 50; i++) {
+  stars.push({
+    x: Math.random() * 480,
+    y: Math.random() * 800,
+    size: Math.random() * 2 + 1,
+    speed: Math.random() * 3 + 2
+  });
+}
+
+const player = {
+  x: width / 2,
+  y: height - 120,
+  radius: 26,
+  targetX: width / 2
+};
+
+let items = [];
+let spawnTimer = 0;
+
+function spawnObjects() {
+  spawnTimer++;
+  if (spawnTimer % 45 === 0) {
+    const isObstacle = Math.random() > 0.45;
+    items.push({
+      x: Math.random() * (width - 60) + 30,
+      y: -30,
+      radius: 18,
+      speed: 4 + level * 1.2,
+      type: isObstacle ? 'obstacle' : 'food'
+    });
+  }
+}
+
+function handleTouch(e) {
+  const rect = canvas.getBoundingClientRect();
+  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+  player.targetX = clientX - rect.left;
+}
+
+window.addEventListener('touchstart', handleTouch, { passive: false });
+window.addEventListener('touchmove', handleTouch, { passive: false });
+window.addEventListener('mousemove', (e) => {
+  if (e.buttons === 1) handleTouch(e);
+});
+
+function drawBackground() {
+  if (level === 1) {
+    ctx.fillStyle = '#060a17';
+  } else if (level === 2) {
+    ctx.fillStyle = '#1c1c24';
+  } else {
+    ctx.fillStyle = '#1e0826';
+  }
+  ctx.fillRect(0, 0, width, height);
+
+  ctx.fillStyle = '#ffffff';
+  for (let s of stars) {
+    ctx.fillRect(s.x % width, s.y, s.size, s.size);
+    s.y += s.speed + (level * 1.5);
+    if (s.y > height) {
+      s.y = 0;
+      s.x = Math.random() * width;
+    }
+  }
+}
+
+function drawPlayer() {
+  player.x += (player.targetX - player.x) * 0.15;
+  if (player.x < player.radius) player.x = player.radius;
+  if (player.x > width - player.radius) player.x = width - player.radius;
+
+  ctx.save();
+  ctx.translate(player.x, player.y);
+
+  if (level === 3) {
+    ctx.fillStyle = '#e91e63';
+    ctx.beginPath();
+    ctx.moveTo(-15, 10);
+    ctx.lineTo(15, 10);
+    ctx.lineTo(25, 45);
+    ctx.lineTo(-25, 45);
+    ctx.fill();
+  }
+
+  ctx.fillStyle = '#ffffff';
+  ctx.beginPath();
+  ctx.arc(0, 5, 22, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = '#ffeb3b';
+  ctx.beginPath();
+  ctx.ellipse(-10, -28, 5, 15, -0.2, 0, Math.PI * 2);
+  ctx.ellipse(10, -28, 5, 15, 0.2, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.arc(0, -6, 17, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.strokeStyle = '#81d4fa';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.arc(0, -6, 19, 0, Math.PI * 2);
+  ctx.stroke();
+
+  ctx.fillStyle = '#212121';
+  ctx.beginPath();
+  ctx.arc(-5, -6, 2.5, 0, Math.PI * 2);
+  ctx.arc(5, -6, 2.5, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = '#ff4081';
+  ctx.beginPath();
+  ctx.arc(-9, -2, 3, 0, Math.PI * 2);
+  ctx.arc(9, -2, 3, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.restore();
+}
+
+function drawItems() {
+  for (let i = items.length - 1; i >= 0; i--) {
+    let item = items[i];
+    item.y += item.speed;
+
+    if (item.type === 'food') {
+      ctx.fillStyle = '#ffd54f';
+      ctx.beginPath();
+      ctx.arc(item.x, item.y, item.radius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = '#ff8f00';
+      ctx.lineWidth = 3;
+      ctx.stroke();
+      ctx.fillStyle = '#e65100';
+      ctx.font = 'bold 12px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('月', item.x, item.y);
+    } else {
+      ctx.fillStyle = '#78909c';
+      ctx.beginPath();
+      ctx.arc(item.x, item.y, item.radius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#37474f';
+      ctx.beginPath();
+      ctx.arc(item.x - 5, item.y - 4, 4, 0, Math.PI * 2);
+      ctx.arc(item.x + 4, item.y + 5, 3, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    const dist = Math.hypot(player.x - item.x, player.y - item.y);
+    if (dist < player.radius + item.radius) {
+      if (item.type === 'food') {
+        score += 100;
+        updateUI();
+      } else {
+        hp--;
+        updateUI();
+        if (hp <= 0) {
+          alert('任務失敗！重新嘗試本關！');
+          hp = 3;
+          score = (level - 1) * 500;
+          updateUI();
+        }
+      }
+      items.splice(i, 1);
+      continue;
+    }
+
+    if (item.y > height + 40) {
+      items.splice(i, 1);
+    }
+  }
+}
+
+function updateUI() {
+  document.getElementById('score-text').innerText = `分數: ${score}`;
+  document.getElementById('level-text').innerText = `關卡: ${level}/3`;
+  document.getElementById('hp-text').innerText = `生命: ${'❤️'.repeat(hp)}`;
+}
+
+function showStory(data, callback) {
+  gameState = 'STORY';
+  const overlay = document.getElementById('story-overlay');
+  document.getElementById('story-title').innerText = data.title;
+  document.getElementById('story-text').innerText = data.text;
+  const btn = document.getElementById('story-btn');
+  btn.innerText = data.btn;
+  overlay.style.display = 'flex';
+
+  btn.onclick = () => {
+    overlay.style.display = 'none';
+    gameState = 'PLAYING';
+    if (callback) callback();
+  };
+}
+
+function checkLevelProgress() {
+  if (score >= level * 500) {
+    if (level === 1) {
+      level = 2;
+      items = [];
+      showStory(stories[2], () => updateUI());
+    } else if (level === 2) {
+      level = 3;
+      items = [];
+      showStory(stories[3], () => updateUI());
+    } else if (level === 3) {
+      gameState = 'WIN';
+      items = [];
+      showStory(stories.win, () => {
+        level = 1;
+        score = 0;
+        hp = 3;
+        updateUI();
+        showStory(stories[1]);
+      });
+    }
+  }
+}
+
+function gameLoop() {
+  if (gameState === 'PLAYING') {
+    drawBackground();
+    spawnObjects();
+    drawItems();
+    drawPlayer();
+    checkLevelProgress();
+  }
+  requestAnimationFrame(gameLoop);
+}
+
+showStory(stories[1]);
+gameLoop();
+</script>
+</body>
+</html>
