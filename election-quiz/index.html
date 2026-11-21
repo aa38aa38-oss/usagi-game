@@ -387,7 +387,7 @@ const DEF = 0.3;
 const PALETTE = ["var(--ink)", "var(--accent)", "var(--mute)", "var(--line)", "var(--ink2)"];
 const DS = {};
 function REGISTER(d){ DS[d.id] = d; }
-let CITY = null, MDS = null, CDS = null;           // 目前選擇的市長、議員資料
+let CITY = null, MDS = null, CDS = null, CDS_COVER = true;           // 目前選擇的市長、議員資料
 let MAYOR = [], COUNCIL = [], ALL = {}, PROMISE = {}, TARGETS = [];
 let Q = [], idx = 0, ans = [], mode = "both";
 const INTEGRITY = {
@@ -420,9 +420,9 @@ async function pickArea(area){
   const reg = ind ? R.council.find(d=>d.indigenous===ind) : R.council.find(d=>d.areas.includes(area));
   $("#pkres").innerHTML=`<span class="pk-load">載入中…</span>`;
   const [m,c]=await Promise.all([load(R.mayor.id),load(reg.id)]);
-  MDS=m; CDS=c;
+  MDS=m; CDS=c; CDS_COVER=COVERED.includes(reg.id);
   try{history.replaceState(null,"",`#${CITY}/${encodeURIComponent(area)}${ind?"/"+ind:""}`)}catch(e){}
-  $("#pkres").innerHTML=`你的選票：<b>${R.mayor.title}</b>${m?"":"<span class='pend'>資料查核中</span>"}　＋　<b>${R.name}議員${short(reg.title)}</b>（${reg.areas.length?reg.areas.join("、")+"，":""}應選 ${reg.seats} 席）${c?"":"<span class='pend'>資料查核中</span>"}`;
+  $("#pkres").innerHTML=`你的選票：<b>${R.mayor.title}</b>${m?"":"<span class='pend'>資料查核中</span>"}　＋　<b>${R.name}議員${short(reg.title)}</b>（${reg.areas.length?reg.areas.join("、")+"，":""}應選 ${reg.seats} 席）${c?"":`<span class='pend'>${COVERED.includes(reg.id)?"資料查核中":"未涵蓋"}</span>`}`;
   applyData();
 }
 function applyData(){
@@ -432,7 +432,7 @@ function applyData(){
   TARGETS = [...(MDS?MDS.integrityTargets:[]),...(CDS?CDS.integrityTargets:[])];
   const has=MDS||CDS; $("#regionBody").hidden=!has; $("#regionSections").hidden=!has;
   $("#brandsub").textContent = (MDS?MDS.city:CDS?CDS.city:"") + (CDS?"・議員"+short(CDS.title):"");
-  if(!has){$("#pkres").innerHTML+=`<div class="pend-box">這個選區的資料正在進行第二次查核，確認無誤後就會上線，請稍後再回來。</div>`;return}
+  if(!has){$("#pkres").innerHTML+=CDS_COVER?`<div class="pend-box">這個選區的資料正在查核，確認無誤後就會上線，請稍後再回來。</div>`:`<div class="pend-box">本站目前只涵蓋臺北市松山、信義、大安、文山區，以及新北市林口、五股、泰山、新莊、三重、蘆洲、永和、新店、深坑、石碇、坪林、烏來、樹林、鶯歌、土城、三峽區。你的選區暫未提供，請參考中選會官方選舉公報。</div>`;return}
   const mq=MDS?MDS.questions.length:0, cq=CDS?CDS.questions.length:0;
   const tracked=[...MAYOR,...COUNCIL].filter(c=>c.promise&&!c.promise.na).length;
   $("#stats").innerHTML=`<div class="stat"><b>${MAYOR.length+COUNCIL.length}</b><span>位候選人（市長${MAYOR.length}・議員${COUNCIL.length}）</span></div>

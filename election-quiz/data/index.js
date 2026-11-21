@@ -29,3 +29,5 @@ var REGIONS = {
     ] }
 };
 var READY = {}; // 由各資料檔 REGISTER 時填入
+/* 本站目前涵蓋的選區 */
+var COVERED = ["tpe-mayor","tpe-c03","tpe-c06","ntpc-mayor","ntpc-c02","ntpc-c03","ntpc-c04","ntpc-c07","ntpc-c08","ntpc-c09"];
