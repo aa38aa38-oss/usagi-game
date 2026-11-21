@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>政見配對 2026・三重</title>
+<meta name="description" content="2026 新北市長與市議員第4選區（三重、蘆洲）政見配對測驗。題目依中選會官方選舉公報設計，附候選人學經歷、事實查核、政見兌現度與正負面公開紀錄。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f5f2ec; --card:#ffffff; --ink:#1c1b19; --ink2:#4a4740; --mute:#8a857a; --line:#e2ddd2;
+  --accent:#b3761b; --accent-soft:#f3e6cf; --accent-ink:#7a4f0f;
+  --ok:#2f6f4f; --warn:#a86a12; --bad:#a33a2c; --info:#3a5a78;
+  --bar:#1c1b19; --shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.06);
+  --r:14px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#151412; --card:#1e1d1a; --ink:#f1ede5; --ink2:#c9c3b7; --mute:#8f897c; --line:#34312b;
+  --accent:#e0a64b; --accent-soft:#3a2d18; --accent-ink:#f0c27a;
+  --ok:#6fbf95; --warn:#e0a64b; --bad:#e0796a; --info:#86a9cc; --bar:#f1ede5; --shadow:none;
+}}
+:root[data-theme="dark"]{
+  --paper:#151412; --card:#1e1d1a; --ink:#f1ede5; --ink2:#c9c3b7; --mute:#8f897c; --line:#34312b;
+  --accent:#e0a64b; --accent-soft:#3a2d18; --accent-ink:#f0c27a;
+  --ok:#6fbf95; --warn:#e0a64b; --bad:#e0796a; --info:#86a9cc; --bar:#f1ede5; --shadow:none;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans TC",system-ui,-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;line-height:1.7;font-size:16px}
+a{color:var(--accent-ink)}
+.serif{font-family:"Noto Serif TC",serif}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+button{font:inherit;cursor:pointer}
+/* top bar */
+.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:58px;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.04em;cursor:pointer;color:var(--ink);text-decoration:none}
+.mark{width:30px;height:30px;border-radius:8px;background:var(--ink);color:var(--paper);display:grid;place-items:center;font-family:"Noto Serif TC";font-size:15px}
+.brand small{display:block;font-weight:500;font-size:11px;color:var(--mute);letter-spacing:.08em;line-height:1}
+.nav{display:flex;gap:4px}
+.nav a{font-size:14px;color:var(--ink2);text-decoration:none;padding:6px 10px;border-radius:8px}
+.nav a:hover{background:var(--card)}
+@media(max-width:640px){.nav .hide-s{display:none}}
+/* hero */
+.hero{padding-top:56px;padding-bottom:28px}
+.eyebrow{display:inline-flex;gap:8px;align-items:center;font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--accent-ink);background:var(--accent-soft);padding:4px 12px;border-radius:99px}
+h1{font-family:"Noto Serif TC",serif;font-weight:900;font-size:clamp(34px,6vw,60px);line-height:1.15;margin:18px 0 14px;letter-spacing:.01em}
+h1 em{font-style:normal;background:linear-gradient(transparent 62%,var(--accent-soft) 62%)}
+.lead{font-size:clamp(16px,2.2vw,19px);color:var(--ink2);max-width:680px;margin:0}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin:32px 0 0}
+.stat{background:var(--card);padding:16px 18px}
+.stat b{display:block;font-family:"Noto Serif TC";font-size:28px;line-height:1.2}
+.stat span{font-size:13px;color:var(--mute)}
+@media(max-width:640px){.stats{grid-template-columns:repeat(2,1fr)}}
+/* mode cards */
+.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:28px 0 10px}
+@media(max-width:760px){.modes{grid-template-columns:1fr}}
+.mode{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px;text-align:left;color:var(--ink);box-shadow:var(--shadow);transition:transform .15s,border-color .15s;display:flex;flex-direction:column;gap:6px}
+.mode:hover{transform:translateY(-2px);border-color:var(--accent)}
+.mode .tag{font-size:12px;color:var(--mute);letter-spacing:.1em}
+.mode h3{margin:0;font-family:"Noto Serif TC";font-size:22px}
+.mode p{margin:0;color:var(--ink2);font-size:14px}
+.mode .go{margin-top:auto;padding-top:12px;font-weight:700;color:var(--accent-ink)}
+.mode.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.mode.primary p,.mode.primary .tag{color:color-mix(in srgb,var(--paper) 72%,transparent)}
+.mode.primary .go{color:var(--accent)}
+.notice{font-size:13px;color:var(--mute);border-left:3px solid var(--accent);padding:6px 12px;margin:22px 0 0;background:var(--card);border-radius:0 8px 8px 0}
+/* sections */
+section.block{padding:44px 0;border-top:1px solid var(--line)}
+h2{font-family:"Noto Serif TC";font-size:clamp(24px,3.4vw,32px);margin:0 0 6px}
+.sub{color:var(--ink2);margin:0 0 22px}
+/* candidate directory */
+.dir-tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--ink2);padding:6px 14px;border-radius:99px;font-size:14px}
+.chip.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.cand{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;text-align:left;color:var(--ink);display:flex;gap:12px;align-items:center;transition:border-color .15s}
+.cand:hover{border-color:var(--accent)}
+.no{flex:none;width:42px;height:42px;border-radius:10px;border:1.5px solid var(--ink);display:grid;place-items:center;font-family:"Noto Serif TC";font-weight:900;font-size:19px}
+.cand b{display:block;font-size:17px}
+.cand small{color:var(--mute);font-size:12.5px}
+.flag{display:inline-block;font-size:11px;padding:1px 7px;border-radius:99px;margin-left:4px;vertical-align:2px;font-weight:700}
+.flag.inc{background:var(--accent-soft);color:var(--accent-ink)}
+.flag.ind{background:color-mix(in srgb,var(--bad) 15%,transparent);color:var(--bad)}
+/* quiz */
+#quiz{display:none;min-height:calc(100vh - 58px)}
+.qhead{padding:22px 0 8px}
+.qmeta{display:flex;justify-content:space-between;font-size:13px;color:var(--mute);margin-bottom:8px;gap:10px}
+.qmeta b{color:var(--accent-ink);letter-spacing:.06em}
+.prog{height:6px;background:var(--line);border-radius:99px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.qcard{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:clamp(20px,4vw,36px);margin:18px 0;box-shadow:var(--shadow)}
+.qnum{font-family:"Noto Serif TC";font-size:14px;color:var(--mute);letter-spacing:.1em}
+.qtext{font-family:"Noto Serif TC";font-size:clamp(21px,3.4vw,28px);font-weight:700;line-height:1.45;margin:6px 0 22px}
+.opts{display:grid;gap:10px}
+.opt{display:flex;gap:14px;align-items:flex-start;text-align:left;background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:14px 16px;color:var(--ink);transition:border-color .12s,background .12s}
+.opt:hover{border-color:var(--ink2)}
+.opt .let{flex:none;width:28px;height:28px;border-radius:8px;border:1.5px solid var(--ink2);display:grid;place-items:center;font-weight:700;font-size:14px}
+.opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+.opt.sel .let{background:var(--accent);border-color:var(--accent);color:#fff}
+.qfoot{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:20px}
+.imp{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--ink2);cursor:pointer;user-select:none}
+.imp input{width:18px;height:18px;accent-color:var(--accent)}
+.btns{display:flex;gap:8px}
+.btn{border:1.5px solid var(--ink);background:transparent;color:var(--ink);padding:9px 18px;border-radius:10px;font-weight:700;font-size:15px}
+.btn.solid{background:var(--ink);color:var(--paper)}
+.btn.ghost{border-color:var(--line);color:var(--ink2);font-weight:500}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.qnote{font-size:13px;color:var(--mute);background:var(--paper);border-radius:10px;padding:10px 14px;margin-top:16px}
+/* results */
+#results{display:none;padding-bottom:40px}
+.rhero{padding:34px 0 10px}
+.rcard{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:clamp(18px,3.5vw,32px);box-shadow:var(--shadow);margin:18px 0}
+.rcard h3{font-family:"Noto Serif TC";font-size:22px;margin:0 0 4px}
+.rcard .hint{font-size:13px;color:var(--mute);margin:0 0 18px}
+.stack{display:flex;height:16px;border-radius:99px;overflow:hidden;background:var(--line);margin:4px 0 22px}
+.stack i{display:block;height:100%}
+.mrow{display:grid;grid-template-columns:56px 1fr auto;gap:14px;align-items:center;padding:16px 0;border-top:1px solid var(--line)}
+.mrow:first-of-type{border-top:0}
+.pct{font-family:"Noto Serif TC";font-weight:900;font-size:clamp(30px,5vw,44px);line-height:1;text-align:right}
+.pct small{font-size:.45em;font-weight:700;margin-left:2px}
+.mname{font-size:19px;font-weight:700}
+.mname span{font-size:13px;color:var(--mute);font-weight:500;margin-left:6px}
+.raw{font-size:13px;color:var(--ink2)}
+.why{margin:8px 0 0;padding:0;list-style:none;font-size:13.5px;color:var(--ink2)}
+.why li{padding-left:14px;position:relative;margin:2px 0}
+.why li:before{content:"";position:absolute;left:0;top:.75em;width:6px;height:6px;border-radius:2px;background:var(--accent)}
+.linkbtn{background:none;border:0;padding:0;color:var(--accent-ink);font-weight:700;font-size:14px;margin-top:8px;text-decoration:underline;text-underline-offset:3px}
+.crow{display:grid;grid-template-columns:42px 1fr 64px;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.crow.top9 .no{background:var(--ink);color:var(--paper)}
+.cbar{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:6px}
+.cbar i{display:block;height:100%;background:var(--ink2)}
+.crow.top9 .cbar i{background:var(--accent)}
+.cpct{font-family:"Noto Serif TC";font-weight:900;font-size:22px;text-align:right}
+.divider9{font-size:12px;color:var(--accent-ink);letter-spacing:.1em;padding:8px 0;border-top:2px dashed var(--accent)}
+.adj{font-size:12px;color:var(--bad)}
+/* drawer */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:40;display:none}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(640px,100%);background:var(--paper);z-index:41;transform:translateX(100%);transition:transform .25s;overflow-y:auto;border-left:1px solid var(--line)}
+.drawer.open{transform:none}
+.dhead{position:sticky;top:0;background:var(--paper);border-bottom:1px solid var(--line);padding:16px 20px;display:flex;gap:14px;align-items:center;z-index:2}
+.dhead .no{width:52px;height:52px;font-size:24px}
+.dhead h3{margin:0;font-family:"Noto Serif TC";font-size:24px;line-height:1.2}
+.dhead small{color:var(--mute)}
+.x{margin-left:auto;border:1px solid var(--line);background:var(--card);border-radius:10px;width:38px;height:38px;font-size:20px;color:var(--ink)}
+.dbody{padding:8px 20px 40px}
+.dsec{margin:22px 0 0}
+.dsec h4{font-size:13px;letter-spacing:.12em;color:var(--accent-ink);margin:0 0 8px;font-weight:700}
+.dsec ul{margin:0;padding-left:20px}
+.dsec li{margin:3px 0}
+.recs{list-style:none;padding:0!important}
+.recs li{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:8px 0!important;font-size:14.5px}
+.rt{display:inline-block;font-size:11.5px;font-weight:700;padding:1px 8px;border-radius:6px;margin-right:6px}
+.rt.accuse{background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn)}
+.rt.indict{background:color-mix(in srgb,var(--bad) 18%,transparent);color:var(--bad)}
+.rt.ruling{background:color-mix(in srgb,var(--info) 18%,transparent);color:var(--info)}
+.rt.agency{background:color-mix(in srgb,var(--info) 18%,transparent);color:var(--info)}
+.rt.critique{background:var(--line);color:var(--ink2)}
+.rt.victim{background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--ok)}
+.rt.party{background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn)}
+.rt.none{background:var(--line);color:var(--ink2)}
+.rt.ok{background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--ok)}
+.rt.warn{background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn)}
+.rt.na{background:var(--line);color:var(--ink2)}
+.src{font-size:12px;margin-left:4px;white-space:nowrap}
+.pbox{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.prate{display:flex;align-items:baseline;gap:10px}
+.prate b{font-family:"Noto Serif TC";font-size:34px;line-height:1}
+.pbar{display:flex;height:10px;border-radius:99px;overflow:hidden;background:var(--line);margin:10px 0}
+.pbar i{display:block;height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--ink2)}
+.legend span:before{content:"";display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:5px;background:var(--c)}
+/* method */
+.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:760px){.cols{grid-template-columns:1fr}}
+.mcard{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px}
+.mcard h4{margin:0 0 6px;font-family:"Noto Serif TC";font-size:18px}
+.mcard p{margin:0;font-size:14px;color:var(--ink2)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+footer{border-top:1px solid var(--line);padding:28px 0 40px;font-size:13px;color:var(--mute)}
+.share{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+@media print{.top,.btns,.share{display:none}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" onclick="goHome()" role="button" tabindex="0"><span class="mark">配</span><span>政見配對 2026<small>新北市長・市議員第4選區</small></span></a>
+  <nav class="nav"><a href="#people" onclick="goHome()">候選人</a><a href="#method" class="hide-s" onclick="goHome()">方法說明</a><a href="#" onclick="toggleTheme();return false" aria-label="切換深淺色">◐</a></nav>
+</div></header>
+
+<main id="home">
+  <div class="wrap hero">
+    <span class="eyebrow">2026・11・28 投票 ｜ 三重區選民</span>
+    <h1>你的想法，<br>跟哪位候選人<em>最合</em>？</h1>
+    <p class="lead">題目依中選會「官方選舉公報」與公開報導設計，涵蓋交通、醫療、育兒、長者、教育、居住等主題。作答後會算出你和每位候選人的適合度，並附上學經歷、事實查核、過往政見兌現情形與正負面紀錄。</p>
+    <div class="stats">
+      <div class="stat"><b>20</b><span>位候選人（市長3・議員17）</span></div>
+      <div class="stat"><b>30</b><span>題選擇題，約 6 分鐘</span></div>
+      <div class="stat"><b>100%</b><span>政見取自官方公報原文</span></div>
+      <div class="stat"><b>0</b><span>筆個人資料會被上傳</span></div>
+    </div>
+    <div class="modes">
+      <button class="mode primary" onclick="start('both')"><span class="tag">推薦・完整版</span><h3>市長＋議員</h3><p>兩張選票一次配對，共 30 題。</p><span class="go">開始作答 →</span></button>
+      <button class="mode" onclick="start('mayor')"><span class="tag">13 題</span><h3>只配對市長</h3><p>1號 蘇巧慧・2號 蘇輝湟・3號 李四川</p><span class="go">開始 →</span></button>
+      <button class="mode" onclick="start('council')"><span class="tag">17 題</span><h3>只配對議員</h3><p>第4選區（三重、蘆洲）17人競逐9席</p><span class="go">開始 →</span></button>
+    </div>
+    <p class="notice">本站為民間整理的選民參考工具，非中選會或任何政黨、候選人製作，不代表投票建議。所有資料均附來源，請以<a href="javascript:void(0)" onclick="openPdf('mayor')">市長公報</a>、<a href="javascript:void(0)" onclick="openPdf('d4')">議員公報</a>原文為準。</p>
+  </div>
+
+  <section class="block" id="people"><div class="wrap">
+    <h2>候選人資料庫</h2>
+    <p class="sub">點選任一位，查看公報學經歷與政見、事實查核、政見兌現度、正面與爭議紀錄。排列依號次，不代表任何立場。</p>
+    <div class="dir-tabs"><button class="chip on" data-t="m" onclick="dirTab('m',this)">市長（3）</button><button class="chip" data-t="c" onclick="dirTab('c',this)">議員第4選區（17）</button></div>
+    <div class="grid" id="dir"></div>
+  </div></section>
+
+  <section class="block" id="method"><div class="wrap">
+    <h2>方法說明</h2>
+    <p class="sub">我們盡量讓計算過程透明、可檢驗。</p>
+    <div class="cols">
+      <div class="mcard"><h4>1・題目怎麼來</h4><p>每個選項都對應到候選人在官方公報寫下的具體政見（結果頁會列出依據）。公報沒有表態的候選人，該選項給中性分 0.3，不扣到零。</p></div>
+      <div class="mcard"><h4>2・適合度怎麼算</h4><p>「政見契合度」＝你選的選項與候選人政見吻合的加權平均（標記「特別重要」的題目算兩倍）。市長的「適合度」再將三人的契合度放大差距後換算成加總 100% 的比例。</p></div>
+      <div class="mcard"><h4>3・負面紀錄怎麼處理</h4><p>只有「起訴中」或「有罪判決」等正式司法紀錄，且你選擇在意時才會調整分數。媒體爆料、對手指控、家屬案件只列在資料頁供參考，不計分。</p></div>
+    </div>
+    <div class="cols" style="margin-top:14px">
+      <div class="mcard"><h4>4・政見兌現度</h4><p>針對過去曾當選的候選人，逐條比對上一屆公報政見與任內實際結果，分為已實現、部分／進行中、未實現、無法查證。兌現率＝(已實現＋0.5×部分)÷可查證項目。此數字獨立呈現，不影響配對分數。</p></div>
+      <div class="mcard"><h4>5・紀錄標籤</h4><div class="tags"><span class="rt indict">起訴中</span><span class="rt ruling">判決</span><span class="rt agency">機關認定</span><span class="rt accuse">指控</span><span class="rt party">黨紀</span><span class="rt critique">政治批評</span><span class="rt victim">被害方</span></div></div>
+      <div class="mcard"><h4>6・限制</h4><p>「查無負面資料」只代表在公開網路資料中沒找到，不等於紀錄清白。議員沒有行政權，政見「實現」與否也受市府、預算影響。資料整理至 2026-11-21。</p></div>
+    </div>
+  </div></section>
+</main>
+
+<main id="quiz"><div class="wrap" style="max-width:760px">
+  <div class="qhead"><div class="qmeta"><span id="qsec"></span><b id="qcat"></b></div><div class="prog"><i id="qprog"></i></div></div>
+  <div class="qcard">
+    <div class="qnum" id="qnum"></div>
+    <div class="qtext" id="qtext"></div>
+    <div class="opts" id="qopts"></div>
+    <div class="qnote" id="qnote" hidden></div>
+    <div class="qfoot">
+      <label class="imp"><input type="checkbox" id="qimp" onchange="setImp(this.checked)"> 這題對我特別重要（×2）</label>
+      <div class="btns"><button class="btn ghost" onclick="prev()" id="bprev">上一題</button><button class="btn ghost" onclick="skip()">跳過</button><button class="btn solid" onclick="next()" id="bnext" disabled>下一題</button></div>
+    </div>
+  </div>
+  <p style="font-size:13px;color:var(--mute);text-align:center">選項依據會在結果頁揭露，作答時不顯示候選人名字以減少偏見。</p>
+</div></main>
+
+<main id="results"><div class="wrap">
+  <div class="rhero"><span class="eyebrow">你的配對結果</span><h1 style="font-size:clamp(30px,5vw,46px);margin-bottom:6px">依你的回答，<br>最適合你的候選人是</h1><p class="lead" id="rlead"></p>
+    <div class="share"><button class="btn" onclick="restart()">重新作答</button><button class="btn ghost" onclick="window.print()">列印／存成 PDF</button><button class="btn ghost" onclick="goHome()">回首頁</button></div>
+  </div>
+  <div id="rmayor"></div>
+  <div id="rcouncil"></div>
+  <p class="notice">結果只反映你的回答與候選人「公報政見」的吻合程度，不代表候選人能力或品格評價，也不構成投票建議。請搭配資料頁的查核、兌現度與紀錄綜合判斷。</p>
+</div></main>
+
+<div class="ov" id="ov" onclick="closeD()"></div>
+<aside class="drawer" id="drawer" aria-hidden="true"></aside>
+
+<footer><div class="wrap">
+  資料來源：中央選舉委員會 115 年新北市長選舉公報、新北市議會第5屆議員選舉第4選舉區選舉公報，以及各候選人資料頁所列新聞報導。本站不蒐集任何作答資料，所有計算都在你的瀏覽器中完成。<br>資料整理日期：2026-11-21。如發現錯誤，請以官方公報與原始報導為準。
+</div></footer>
+
+<script src="data.js"></script>
+<script src="promise.js"></script>
+<script>
+const $ = s => document.querySelector(s);
+const ALL = Object.fromEntries([...MAYOR, ...COUNCIL].map(c => [c.id, c]));
+const PALETTE = ["var(--ink)", "var(--accent)", "var(--mute)"];
+let Q = [], idx = 0, ans = [], mode = "both";
+
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function show(id){["home","quiz","results"].forEach(x=>$("#"+x).style.display = x===id?"block":"none");window.scrollTo(0,0)}
+function goHome(){show("home")}
+function openPdf(w){window.open(w==="mayor"?SRC.mayorPdf:SRC.d4Pdf,"_blank","noopener")}
+function toggleTheme(){const r=document.documentElement;const dark=r.dataset.theme?r.dataset.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches;r.dataset.theme=dark?"light":"dark";try{localStorage.setItem("theme",r.dataset.theme)}catch(e){}}
+try{const t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}
+
+/* directory */
+function dirTab(t,el){document.querySelectorAll(".dir-tabs .chip").forEach(c=>c.classList.toggle("on",c===el));renderDir(t)}
+function candBtn(c){
+  const indicted = c.rec && c.rec.some(r=>r.k==="indict" && !/非本人/.test(r.t));
+  return `<button class="cand" onclick="openD('${c.id}')"><span class="no">${c.no}</span><span><b>${esc(c.name)}${c.inc?'<span class="flag inc">現任</span>':''}${indicted?'<span class="flag ind">起訴中</span>':''}</b><small>${esc(c.party)}</small></span></button>`;
+}
+function renderDir(t){$("#dir").innerHTML=(t==="m"?MAYOR:COUNCIL).map(candBtn).join("")}
+renderDir("m");
+
+/* quiz */
+function start(m){
+  mode=m;
+  const mq = MAYOR_Q.map(q=>({...q,race:"mayor"}));
+  const cq = COUNCIL_Q.map(q=>({...q,race:"council"}));
+  const iq = {cat:"誠信",q:INTEGRITY.q,race:"integrity",o:INTEGRITY.o,note:INTEGRITY.note};
+  Q = m==="mayor"?mq : m==="council"?[...cq,iq] : [...mq,...cq,iq];
+  ans = Q.map(()=>({o:null,imp:false})); idx=0; show("quiz"); renderQ();
+}
+function renderQ(){
+  const q=Q[idx], a=ans[idx];
+  $("#qsec").textContent = q.race==="mayor"?"市長選舉":q.race==="council"?"議員選舉（第4選區）":"誠信與司法紀錄";
+  $("#qcat").textContent = q.cat;
+  $("#qnum").textContent = `第 ${idx+1} 題 / 共 ${Q.length} 題`;
+  $("#qtext").textContent = q.q;
+  $("#qprog").style.width = (idx/Q.length*100)+"%";
+  $("#qopts").innerHTML = q.o.map((o,i)=>`<button class="opt ${a.o===i?'sel':''}" onclick="pick(${i})"><span class="let">${"ABCDE"[i]}</span><span>${esc(o.t)}</span></button>`).join("");
+  $("#qimp").checked=a.imp; $("#qimp").parentElement.style.visibility = q.race==="integrity"?"hidden":"visible";
+  const n=$("#qnote"); if(q.note){n.hidden=false;n.textContent=q.note}else n.hidden=true;
+  $("#bprev").disabled = idx===0; $("#bnext").disabled = a.o===null;
+  $("#bnext").textContent = idx===Q.length-1?"看結果":"下一題";
+}
+function pick(i){ans[idx].o=i;renderQ();setTimeout(()=>{if(ans[idx].o===i)next()},260)}
+function setImp(v){ans[idx].imp=v}
+function next(){if(ans[idx].o===null)return; if(idx<Q.length-1){idx++;renderQ()}else results()}
+function skip(){ans[idx].o=null; if(idx<Q.length-1){idx++;renderQ()}else results()}
+function prev(){if(idx>0){idx--;renderQ()}}
+function restart(){start(mode)}
+
+/* scoring */
+function score(race, list){
+  const tot={},max={},why={};list.forEach(c=>{tot[c.id]=0;max[c.id]=0;why[c.id]=[]});
+  Q.forEach((q,qi)=>{
+    if(q.race!==race)return; const a=ans[qi]; if(a.o===null)return; const o=q.o[a.o]; if(!o.s)return;
+    const w=a.imp?2:1;
+    list.forEach(c=>{const s=(c.id in o.s)?o.s[c.id]:DEF; tot[c.id]+=w*s; max[c.id]+=w; if(s>=0.8) why[c.id].push({q:q.cat,t:o.t,w:o.why,s:s*w})});
+  });
+  let mult=1, integrityAns=null;
+  Q.forEach((q,qi)=>{if(q.race==="integrity"&&ans[qi].o!==null)integrityAns=INTEGRITY.o[ans[qi].o]});
+  return list.map(c=>{
+    let m = max[c.id]?tot[c.id]/max[c.id]:0, adj=null;
+    if(integrityAns && INTEGRITY.targets.includes(c.id) && integrityAns.m<1){m*=integrityAns.m;adj=`依你的誠信題選擇，因「起訴中」調降 ${Math.round((1-integrityAns.m)*100)}%`}
+    return {c,m,adj,why:why[c.id].sort((a,b)=>b.s-a.s),answered:max[c.id]>0};
+  });
+}
+function results(){
+  show("results");
+  let lead=[];
+  if(mode!=="council"){
+    const r=score("mayor",MAYOR); const any=r.some(x=>x.answered);
+    if(!any){$("#rmayor").innerHTML=`<div class="rcard"><h3>市長</h3><p>你跳過了所有市長題目，無法計算。</p></div>`}
+    else{
+      const k=3, pw=r.map(x=>Math.pow(x.m,k)), sum=pw.reduce((a,b)=>a+b,0)||1;
+      r.forEach((x,i)=>x.share=pw[i]/sum*100);
+      // round to sum 100
+      let rounded=r.map(x=>Math.floor(x.share)); let rem=100-rounded.reduce((a,b)=>a+b,0);
+      r.map((x,i)=>[x.share-rounded[i],i]).sort((a,b)=>b[0]-a[0]).slice(0,rem).forEach(([,i])=>rounded[i]++);
+      r.forEach((x,i)=>x.pct=rounded[i]);
+      const sorted=[...r].sort((a,b)=>b.pct-a.pct);
+      lead.push(`市長：${sorted[0].c.no}號 ${sorted[0].c.name}（${sorted[0].pct}%）`);
+      $("#rmayor").innerHTML=`<div class="rcard"><h3>新北市長｜適合度</h3><p class="hint">三人加總 100%。「政見契合度」為你與該候選人公報政見的直接吻合程度。</p>
+      <div class="stack">${sorted.map((x,i)=>`<i style="width:${x.pct}%;background:${PALETTE[i]}" title="${x.c.name} ${x.pct}%"></i>`).join("")}</div>
+      ${sorted.map((x,i)=>`<div class="mrow"><span class="no" style="${i===0?'background:var(--ink);color:var(--paper)':''}">${x.c.no}</span>
+        <div><div class="mname">${esc(x.c.name)}<span>${esc(x.c.party)}</span></div><div class="raw">政見契合度 ${Math.round(x.m*100)}%</div>
+        ${x.why.length?`<ul class="why">${x.why.slice(0,3).map(w=>`<li>【${esc(w.q)}】${esc(w.t)}<br><span style="color:var(--mute)">依據：${esc(w.w)}</span></li>`).join("")}</ul>`:''}
+        <button class="linkbtn" onclick="openD('${x.c.id}')">查看完整資料、查核與紀錄</button></div>
+        <div class="pct">${x.pct}<small>%</small></div></div>`).join("")}</div>`;
+    }
+  } else $("#rmayor").innerHTML="";
+  if(mode!=="mayor"){
+    const r=score("council",COUNCIL).sort((a,b)=>b.m-a.m);
+    if(!r.some(x=>x.answered)){$("#rcouncil").innerHTML=`<div class="rcard"><h3>議員</h3><p>你跳過了所有議員題目，無法計算。</p></div>`}
+    else{
+      lead.push(`議員：${r[0].c.no}號 ${r[0].c.name}（契合度 ${Math.round(r[0].m*100)}%）`);
+      $("#rcouncil").innerHTML=`<div class="rcard"><h3>市議員第4選區｜政見契合度排行</h3><p class="hint">17 位候選人各自的契合度（0–100%）。本區應選 9 席，但每位選民只能投 1 票；前 9 名以深色標示僅供參考。點名字看完整資料。</p>
+      ${r.map((x,i)=>`${i===9?'<div class="divider9">以下為第 10 名之後</div>':''}<div class="crow ${i<9?'top9':''}"><span class="no">${x.c.no}</span>
+        <div><button class="linkbtn" style="margin:0;text-decoration:none;color:var(--ink);font-size:16px" onclick="openD('${x.c.id}')">${esc(x.c.name)}</button> <small style="color:var(--mute)">${esc(x.c.party)}${x.c.inc?'・現任':''}</small>
+        ${x.adj?`<div class="adj">${esc(x.adj)}</div>`:''}
+        <div class="cbar"><i style="width:${Math.round(x.m*100)}%"></i></div>
+        ${i<3&&x.why.length?`<ul class="why">${x.why.slice(0,2).map(w=>`<li>【${esc(w.q)}】${esc(w.t)}</li>`).join("")}</ul>`:''}</div>
+        <div class="cpct">${Math.round(x.m*100)}%</div></div>`).join("")}</div>`;
+    }
+  } else $("#rcouncil").innerHTML="";
+  $("#rlead").textContent = lead.join("　｜　");
+}
+
+/* drawer */
+const RT={accuse:"指控",indict:"起訴中",ruling:"判決",agency:"機關認定",critique:"政治批評",victim:"被害方",party:"黨紀",none:"查無",ok:"已證實",warn:"有爭議",na:"未證實"};
+function srcLink(u){return u?`<a class="src" href="${esc(u)}" target="_blank" rel="noopener">來源↗</a>`:""}
+function promiseHTML(id){
+  const p=PROMISE[id];
+  if(!p) return `<div class="pbox" style="color:var(--mute)">兌現度資料整理中。</div>`;
+  if(p.na) return `<div class="pbox"><span class="rt na">不適用</span>${esc(p.na)}</div>`;
+  const tot=p.done+p.partial+p.no; const seg=(n,c)=>tot?`<i style="width:${n/tot*100}%;background:${c}"></i>`:"";
+  return `<div class="pbox"><div class="prate"><b>${p.rate==null?"—":p.rate+"%"}</b><span style="color:var(--ink2);font-size:14px">兌現率（依${esc(p.basis)}，可查證 ${tot} 項）</span></div>
+  <div class="pbar">${seg(p.done,"var(--ok)")}${seg(p.partial,"var(--warn)")}${seg(p.no,"var(--bad)")}</div>
+  <div class="legend"><span style="--c:var(--ok)">已實現 ${p.done}</span><span style="--c:var(--warn)">部分／進行中 ${p.partial}</span><span style="--c:var(--bad)">未實現 ${p.no}</span><span style="--c:var(--line)">無法查證 ${p.unk||0}</span></div>
+  ${p.items?`<ul class="recs" style="margin-top:10px">${p.items.map(it=>`<li><span class="rt ${({"已實現":"victim","部分":"accuse","未實現":"indict","無法查證":"none"})[it.s]||'none'}">${esc(it.s)}</span>${esc(it.t)}${srcLink(it.u)}</li>`).join("")}</ul>`:""}
+  ${p.note?`<p style="font-size:12.5px;color:var(--mute);margin:8px 0 0">${esc(p.note)}</p>`:""}</div>`;
+}
+function openD(id){
+  const c=ALL[id], isM=id[0]==="m";
+  $("#drawer").innerHTML=`<div class="dhead"><span class="no">${c.no}</span><div><h3>${esc(c.name)}</h3><small>${esc(c.party)}・${esc(c.gender)}・${esc(c.born)}${c.inc?"・現任":""}</small></div><button class="x" onclick="closeD()" aria-label="關閉">×</button></div>
+  <div class="dbody">
+    <div class="dsec"><h4>學歷（公報）</h4><ul>${c.edu.map(e=>`<li>${esc(e)}</li>`).join("")}</ul></div>
+    <div class="dsec"><h4>經歷（公報）</h4><ul>${c.exp.map(e=>`<li>${esc(e)}</li>`).join("")}</ul></div>
+    <div class="dsec"><h4>公報政見摘要</h4><ul>${c.platform.map(e=>`<li>${esc(e)}</li>`).join("")}</ul><p style="font-size:13px;margin:6px 0 0"><a href="javascript:void(0)" onclick="openPdf('${isM?"mayor":"d4"}')">查看官方公報原文 ↗</a></p></div>
+    ${c.check?`<div class="dsec"><h4>事實查核</h4><ul class="recs">${c.check.map(r=>`<li><span class="rt ${r.s}">${RT[r.s]}</span>${esc(r.t)}${srcLink(r.u)}</li>`).join("")}</ul></div>`:""}
+    <div class="dsec"><h4>過往政見兌現度</h4>${promiseHTML(id)}</div>
+    <div class="dsec"><h4>正面紀錄</h4><ul class="recs">${c.pos.map(r=>`<li>${esc(r.t)}${srcLink(r.u)}</li>`).join("")}</ul></div>
+    <div class="dsec"><h4>爭議與司法紀錄</h4><ul class="recs">${c.rec.map(r=>`<li><span class="rt ${r.k}">${RT[r.k]}</span>${esc(r.t)}${srcLink(r.u)}</li>`).join("")}</ul>
+    <p style="font-size:12.5px;color:var(--mute)">「指控」不等於事實；「起訴」仍適用無罪推定；「查無」只代表公開資料中未找到。</p></div>
+  </div>`;
+  $("#ov").style.display="block"; $("#drawer").classList.add("open"); $("#drawer").setAttribute("aria-hidden","false"); $("#drawer").scrollTop=0;
+}
+function closeD(){$("#ov").style.display="none";$("#drawer").classList.remove("open");$("#drawer").setAttribute("aria-hidden","true")}
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeD()});
+</script>
+</body>
+</html>
