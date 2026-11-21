@@ -96,7 +96,8 @@ h2{font-family:"Noto Serif TC";font-size:clamp(24px,3.4vw,32px);margin:0 0 6px}
 .qtext{font-family:"Noto Serif TC";font-size:clamp(21px,3.4vw,28px);font-weight:700;line-height:1.45;margin:6px 0 22px}
 .opts{display:grid;gap:10px}
 .opt{display:flex;gap:14px;align-items:flex-start;text-align:left;background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:14px 16px;color:var(--ink);transition:border-color .12s,background .12s}
-.opt:hover{border-color:var(--ink2)}
+@media (hover:hover){.opt:hover{border-color:var(--ink2)}}
+.opt{-webkit-tap-highlight-color:transparent}.opt:focus{outline:none}.opt:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .opt .let{flex:none;width:28px;height:28px;border-radius:8px;border:1.5px solid var(--ink2);display:grid;place-items:center;font-weight:700;font-size:14px}
 .opt.sel{border-color:var(--accent);background:var(--accent-soft)}
 .opt.sel .let{background:var(--accent);border-color:var(--accent);color:#fff}
@@ -364,6 +365,7 @@ div.mode{cursor:default;opacity:.7}
   </div>
   <div id="rmayor"></div>
   <div id="rcouncil"></div>
+  <div id="rnote"></div>
   <div id="rprint" class="print-only"></div>
   <p class="notice">結果只反映你的回答與候選人「公報政見」的吻合程度，不代表候選人能力或品格評價，也不構成投票建議。請搭配資料頁的查核、兌現度與紀錄綜合判斷。</p>
 </div></main>
@@ -472,7 +474,8 @@ function renderDir(t){$("#dir").innerHTML=(t==="m"?MAYOR:COUNCIL).map(candBtn).j
 /* ---------- 作答 ---------- */
 function start(m){
   mode=m;
-  const mq = (m!=="council"&&MDS)?MDS.questions.map(q=>({...q,race:"mayor"})):[];
+  const mq0 = (m!=="council"&&MDS)?MDS.questions.map(q=>({...q,race:"mayor"})):[];
+  const mq = [...mq0.filter(q=>q.cat!=="施政方向"),...mq0.filter(q=>q.cat==="施政方向")];
   const cq = (m!=="mayor"&&CDS)?CDS.questions.map(q=>({...q,race:"council"})):[];
   const tg = TARGETS.filter(id=>(m!=="council"&&id[0]==="m")||(m!=="mayor"&&id[0]==="c"));
   const iq = tg.length?[{cat:"誠信",q:INTEGRITY.q,race:"integrity",o:INTEGRITY.o,tg,
@@ -494,11 +497,11 @@ function renderQ(){
   $("#bprev").disabled = idx===0; $("#bnext").disabled = a.o===null;
   $("#bnext").textContent = idx===Q.length-1?"看結果":"下一題";
 }
-function pick(i){ans[idx].o=i;renderQ();setTimeout(()=>{if(ans[idx].o===i)next()},260)}
+function pick(i){ans[idx].o=i;if(document.activeElement)document.activeElement.blur();renderQ();setTimeout(()=>{if(ans[idx].o===i)next()},260)}
 function setImp(v){ans[idx].imp=v}
-function next(){if(ans[idx].o===null)return; if(idx<Q.length-1){idx++;renderQ();window.scrollTo(0,0)}else results()}
-function skip(){ans[idx].o=null; if(idx<Q.length-1){idx++;renderQ();window.scrollTo(0,0)}else results()}
-function prev(){if(idx>0){idx--;renderQ()}}
+function next(){if(ans[idx].o===null)return; if(idx<Q.length-1){idx++;exOpen=false;renderQ();window.scrollTo(0,0)}else results()}
+function skip(){ans[idx].o=null; if(idx<Q.length-1){idx++;exOpen=false;renderQ();window.scrollTo(0,0)}else results()}
+function prev(){if(idx>0){idx--;exOpen=false;renderQ()}}
 function restart(){start(mode)}
 
 let exOpen=false;
@@ -568,6 +571,20 @@ function results(){LAST={mayor:null,council:null};
     }
   } else $("#rcouncil").innerHTML="";
   $("#rlead").textContent = lead.join("　｜　");
+  $("#rnote").innerHTML = interpret();
+}
+function interpret(){
+  const imp=Q.map((q,i)=>({q,a:ans[i]})).filter(x=>x.a.imp&&x.a.o!==null&&x.q.race!=="integrity"&&x.q.o[x.a.o].s);
+  let h=`<div class="rcard"><h3>如何解讀這個結果</h3>`;
+  if(imp.length){
+    h+=`<p class="hint" style="margin-bottom:8px">你把 ${imp.length} 題標成「特別重要」（計分×2），這些題目會讓以下候選人的適配度明顯提高：</p><ul class="why">`+
+      imp.map(x=>{const o=x.q.o[x.a.o];const ids=Object.entries(o.s).filter(([,v])=>v>=0.8).map(([k])=>ALL[k]).filter(Boolean);
+        return `<li>【${esc(x.q.cat)}】你選「${esc(o.t)}」→ 加分較多：${ids.length?ids.map(c=>`${c.no}號 ${esc(c.name)}`).join("、"):"（公報未明確主張此方向的候選人）"}</li>`}).join("")+`</ul>`;
+  } else h+=`<p class="hint" style="margin-bottom:8px">你沒有把任何題目標成「特別重要」，所有題目權重相同。</p>`;
+  const top=[...(LAST.mayor||[]).slice(0,2),...(LAST.council||[]).slice(0,3)].map(x=>x.c);
+  h+=`<p style="margin:14px 0 6px;font-size:15px"><b>適配度只代表「候選人這次公報提出的政見」與你的想法有多接近</b>，不代表他是否做得到。請搭配「過往政見兌現度」一起看：</p><ul class="why">`+
+    top.map(c=>{const p=PROMISE[c.id];return `<li>${c.no}號 ${esc(c.name)}：${p?(p.na?"無過往任期可追蹤":`過往政見兌現率 ${p.rate}%（已實現${p.done}・部分${p.partial}・未實現${p.no}）`):"—"}　<button class="linkbtn" style="margin:0" onclick="openD('${c.id}')">看細節</button></li>`}).join("")+`</ul></div>`;
+  return h;
 }
 
 /* ---------- 分享圖卡、PDF 附錄 ---------- */
