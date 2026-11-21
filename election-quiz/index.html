@@ -386,7 +386,7 @@ const $ = s => document.querySelector(s);
 const DEF = 0.3;
 const PALETTE = ["var(--ink)", "var(--accent)", "var(--mute)", "var(--line)", "var(--ink2)"];
 const DS = {};
-function REGISTER(d){ DS[d.id] = d; }
+function REGISTER(d){ if(d.verified) DS[d.id] = d; }  // 未完成查核的資料不顯示
 let CITY = null, MDS = null, CDS = null, CDS_COVER = true;           // 目前選擇的市長、議員資料
 let MAYOR = [], COUNCIL = [], ALL = {}, PROMISE = {}, TARGETS = [];
 let Q = [], idx = 0, ans = [], mode = "both";
