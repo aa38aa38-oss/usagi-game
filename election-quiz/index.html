@@ -256,36 +256,54 @@ footer{border-top:1px solid var(--line);padding:28px 0 40px;font-size:13px;color
   .pr-h{font-family:"Noto Serif TC";font-size:20px;margin:24px 0 4px;break-before:page}
 }
 
+.picker{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px 20px;margin:28px 0 0;box-shadow:var(--shadow)}
+.pk-h{font-size:13px;letter-spacing:.12em;color:var(--accent-ink);font-weight:700;margin-bottom:10px}
+.pk-row{display:flex;gap:10px;flex-wrap:wrap}
+.seg{display:inline-flex;border:1.5px solid var(--ink);border-radius:10px;overflow:hidden}
+.seg button{border:0;background:transparent;color:var(--ink);padding:9px 18px;font-weight:700;font-size:15px}
+.seg button.on{background:var(--ink);color:var(--paper)}
+.picker select{font:inherit;font-size:15px;padding:9px 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);min-width:150px;flex:1}
+.pk-res{margin-top:12px;font-size:14.5px;color:var(--ink2);line-height:1.8}
+.pk-res b{color:var(--ink)}
+.pend{display:inline-block;font-size:11.5px;font-weight:700;color:var(--warn);border:1px solid var(--warn);border-radius:6px;padding:0 6px;margin-left:6px}
+.pend-box{margin-top:10px;background:var(--accent-soft);color:var(--accent-ink);border-radius:10px;padding:10px 14px;font-size:14px}
+.pk-load{color:var(--mute)}
+div.mode{cursor:default;opacity:.7}
+#regionBody .stats{margin-top:22px}
 </style>
-</head>
 <body>
 <header class="top"><div class="wrap">
-  <a class="brand" onclick="goHome()" role="button" tabindex="0"><span class="mark">配</span><span>政見配對 2026<small>新北市長・市議員第4選區</small></span></a>
+  <a class="brand" onclick="goHome()" role="button" tabindex="0"><span class="mark">配</span><span>政見配對 2026<small id="brandsub">臺北市・新北市 市長與議員</small></span></a>
   <nav class="nav"><a href="#promises" onclick="goHome()">兌現度</a><a href="#people" onclick="goHome()">候選人</a><a href="#method" class="hide-s" onclick="goHome()">方法說明</a><a href="#" onclick="toggleTheme();return false" aria-label="切換深淺色">◐</a></nav>
 </div></header>
 
 <main id="home">
   <div class="wrap hero">
-    <span class="eyebrow">2026・11・28 投票 ｜ 三重區選民</span>
+    <span class="eyebrow">2026・11・28 投票 ｜ 臺北市・新北市</span>
     <h1>你的想法，<br>跟哪位候選人<em>最合</em>？</h1>
     <p class="lead">題目依中選會「官方選舉公報」與公開報導設計，涵蓋交通、醫療、育兒、長者、教育、居住等主題。作答後會算出你和每位候選人的適合度，並附上學經歷、事實查核與正負面紀錄。<strong>曾當選過的候選人，我們也逐條檢查了他們上一次的政見到底做到多少。</strong></p>
-    <div class="stats">
-      <div class="stat"><b>20</b><span>位候選人（市長3・議員17）</span></div>
-      <div class="stat"><b>29</b><span>題選擇題，每題附白話說明</span></div>
-      <div class="stat"><b>100%</b><span>政見取自官方公報原文</span></div>
-      <div class="stat"><b>9</b><span>位曾任者的政見兌現度追蹤</span></div>
+
+    <div class="picker">
+      <div class="pk-h">先選你的戶籍地</div>
+      <div class="pk-row">
+        <div class="seg" id="citySeg"><button data-c="tpe" onclick="pickCity('tpe')">臺北市</button><button data-c="ntpc" onclick="pickCity('ntpc')">新北市</button></div>
+        <select id="areaSel" onchange="pickArea(this.value)" aria-label="行政區"></select>
+        <select id="indSel" onchange="pickArea($('#areaSel').value)" aria-label="原住民身分"><option value="">一般選民</option><option value="plain">平地原住民</option><option value="mountain">山地原住民</option></select>
+      </div>
+      <div class="pk-res" id="pkres"></div>
     </div>
-    <div class="modes">
-      <button class="mode primary" onclick="start('both')"><span class="tag">推薦・完整版</span><h3>市長＋議員</h3><p>兩張選票一次配對，共 29 題。</p><span class="go">開始作答 →</span></button>
-      <button class="mode" onclick="start('mayor')"><span class="tag">12 題</span><h3>只配對市長</h3><p>1號 蘇巧慧・2號 蘇輝湟・3號 李四川</p><span class="go">開始 →</span></button>
-      <button class="mode" onclick="start('council')"><span class="tag">17 題</span><h3>只配對議員</h3><p>第4選區（三重、蘆洲）17人競逐9席</p><span class="go">開始 →</span></button>
+
+    <div id="regionBody" hidden>
+      <div class="stats" id="stats"></div>
+      <div class="modes" id="modes"></div>
+      <p class="notice" id="notice"></p>
     </div>
-    <p class="notice">本站為民間整理的選民參考工具，非中選會或任何政黨、候選人製作，不代表投票建議。所有資料均附來源，請以<a href="javascript:void(0)" onclick="openPdf('mayor')">市長公報</a>、<a href="javascript:void(0)" onclick="openPdf('d4')">議員公報</a>原文為準。</p>
   </div>
 
+  <div id="regionSections" hidden>
   <section class="block" id="promises"><div class="wrap">
     <div class="feature">
-      <div><span class="k">特色功能・政見兌現度</span><h2 style="margin-top:6px">上次說的，做到了嗎？</h2>
+      <div><span class="k">特色功能・過往政見兌現度</span><h2 style="margin-top:6px">上次說的，做到了嗎？</h2>
       <p>我們找出曾當選者「上一次」選舉公報上的政見，逐條比對任內的實際結果與新聞紀錄，判定為已實現、部分／進行中、未實現或無法查證，算出兌現率。</p></div>
       <ul class="howto">
         <li><i style="background:var(--ok);color:#fff">✓</i>已實現：結果已發生，且有該候選人出力的公開證據</li>
@@ -295,28 +313,29 @@ footer{border-top:1px solid var(--line);padding:28px 0 40px;font-size:13px;color
       </ul>
     </div>
     <div class="pgrid" id="pgrid"></div>
-    <p class="notice">兌現率＝(已實現＋0.5×部分)÷可查證項目。議員沒有行政權，蘆洲醫院、銀新未來城等大型建設由市府或中央主導，未實現不一定是議員不努力；判定主要依新聞報導，可能低估實際成果。樣本少，請勿單以數字排名。此數字<strong>不影響</strong>配對分數。</p>
+    <p class="notice">兌現率＝(已實現＋0.5×部分)÷可查證項目。議員沒有行政權，大型建設多由市府或中央主導，未實現不一定是議員不努力；判定主要依新聞報導，可能低估實際成果。樣本少，請勿單以數字排名。此數字<strong>不影響</strong>配對分數。</p>
     <p style="font-size:14px;color:var(--ink2)" id="pna"></p>
   </div></section>
 
   <section class="block" id="people"><div class="wrap">
     <h2>候選人資料庫</h2>
-    <p class="sub">點選任一位，查看公報學經歷與政見、事實查核、政見兌現度、正面與爭議紀錄。排列依號次，不代表任何立場。</p>
-    <div class="dir-tabs"><button class="chip on" data-t="m" onclick="dirTab('m',this)">市長（3）</button><button class="chip" data-t="c" onclick="dirTab('c',this)">議員第4選區（17）</button></div>
+    <p class="sub">點選任一位，查看公報學經歷與政見、事實查核、過往政見兌現度、正面與爭議紀錄。排列依號次，不代表任何立場。</p>
+    <div class="dir-tabs" id="dirtabs"></div>
     <div class="grid" id="dir"></div>
   </div></section>
+  </div>
 
   <section class="block" id="method"><div class="wrap">
     <h2>方法說明</h2>
-    <p class="sub">我們盡量讓計算過程透明、可檢驗。</p>
+    <p class="sub">每個選區都用同一套方法建立，並經過獨立的第二次查核。</p>
     <div class="cols">
-      <div class="mcard"><h4>1・題目怎麼來</h4><p>每個選項都對應到候選人在官方公報寫下的具體政見（結果頁會列出依據）。公報沒有表態的候選人，該選項給中性分 0.3，不扣到零。</p></div>
-      <div class="mcard"><h4>2・適合度怎麼算</h4><p>「政見契合度」＝你選的選項與候選人政見吻合的加權平均（標記「特別重要」的題目算兩倍）。市長的「適合度」再將三人的契合度放大差距後換算成加總 100% 的比例。</p></div>
+      <div class="mcard"><h4>1・題目怎麼來</h4><p>每個選項都對應到候選人在官方公報寫下的具體政見（結果頁會列出依據）。公報沒有表態的候選人，該選項給中性分 0.3，不扣到零。每個選區的題目依該區候選人政見設計。</p></div>
+      <div class="mcard"><h4>2・適合度怎麼算</h4><p>「政見契合度」＝你選的選項與候選人政見吻合的加權平均（標記「特別重要」的題目算兩倍）。市長的「適合度」再將候選人的契合度放大差距後換算成加總 100% 的比例。</p></div>
       <div class="mcard"><h4>3・負面紀錄怎麼處理</h4><p>只有「起訴中」或「有罪判決」等正式司法紀錄，且你選擇在意時才會調整分數。媒體爆料、對手指控、家屬案件只列在資料頁供參考，不計分。</p></div>
     </div>
     <div class="cols" style="margin-top:14px">
-      <div class="mcard"><h4>4・政見兌現度</h4><p>針對過去曾當選的候選人，逐條比對上一屆公報政見與任內實際結果，分為已實現、部分／進行中、未實現、無法查證。兌現率＝(已實現＋0.5×部分)÷可查證項目。此數字獨立呈現，不影響配對分數。</p></div>
-      <div class="mcard"><h4>5・紀錄標籤</h4><div class="tags"><span class="rt indict">起訴中</span><span class="rt ruling">判決</span><span class="rt agency">機關認定</span><span class="rt accuse">指控</span><span class="rt party">黨紀</span><span class="rt critique">政治批評</span><span class="rt victim">被害方</span></div></div>
+      <div class="mcard"><h4>4・過往政見兌現度</h4><p>針對曾當選的候選人，逐條比對上一屆（2022）公報政見與任內實際結果。兌現率＝(已實現＋0.5×部分)÷可查證項目。此數字獨立呈現，不影響配對分數。</p></div>
+      <div class="mcard"><h4>5・雙重查核</h4><p>每個選區先由一組研究流程依公報與新聞建立資料，再由另一組獨立流程逐筆對照公報原文與來源複查、修正錯誤後才上線。</p><div class="tags"><span class="rt indict">起訴中</span><span class="rt ruling">判決</span><span class="rt agency">機關認定</span><span class="rt accuse">指控</span><span class="rt party">黨紀</span><span class="rt critique">政治批評</span><span class="rt victim">被害方</span></div></div>
       <div class="mcard"><h4>6・限制</h4><p>「查無負面資料」只代表在公開網路資料中沒找到，不等於紀錄清白。議員沒有行政權，政見「實現」與否也受市府、預算影響。資料整理至 2026-11-21。</p></div>
     </div>
   </div></section>
@@ -340,7 +359,7 @@ footer{border-top:1px solid var(--line);padding:28px 0 40px;font-size:13px;color
 </div></main>
 
 <main id="results"><div class="wrap">
-  <div class="rhero"><span class="eyebrow">你的配對結果</span><h1 style="font-size:clamp(30px,5vw,46px);margin-bottom:6px">依你的回答，<br>最適合你的候選人是</h1><p class="lead" id="rlead"></p>
+  <div class="rhero"><span class="eyebrow" id="reyebrow">你的配對結果</span><h1 style="font-size:clamp(30px,5vw,46px);margin-bottom:6px">依你的回答，<br>最適合你的候選人是</h1><p class="lead" id="rlead"></p>
     <div class="share"><button class="btn" onclick="restart()">重新作答</button><button class="btn solid" onclick="openShare()">📱 產生分享圖卡</button><button class="btn ghost" onclick="printAppendix();window.print()">存成 PDF（完整版）</button><button class="btn ghost" onclick="goHome()">回首頁</button></div>
   </div>
   <div id="rmayor"></div>
@@ -358,64 +377,117 @@ footer{border-top:1px solid var(--line);padding:28px 0 40px;font-size:13px;color
 <aside class="drawer" id="drawer" aria-hidden="true"></aside>
 
 <footer><div class="wrap">
-  資料來源：中央選舉委員會 115 年新北市長選舉公報、新北市議會第5屆議員選舉第4選舉區選舉公報，以及各候選人資料頁所列新聞報導。本站不蒐集任何作答資料，所有計算都在你的瀏覽器中完成。<br>資料整理日期：2026-11-21。如發現錯誤，請以官方公報與原始報導為準。
+  資料來源：中央選舉委員會 115 年直轄市長、直轄市議員選舉公報（各選區資料頁附原文連結），以及各候選人資料頁所列新聞報導。本站不蒐集任何作答資料，所有計算都在你的瀏覽器中完成。<br>資料整理日期：2026-11-21。如發現錯誤，請以官方公報與原始報導為準。
 </div></footer>
 
-<script src="data.js"></script>
-<script src="promise.js"></script>
-<script src="explain_m.js"></script>
-<script src="explain_c.js"></script>
+<script src="data/index.js"></script>
 <script>
 const $ = s => document.querySelector(s);
-const ALL = Object.fromEntries([...MAYOR, ...COUNCIL].map(c => [c.id, c]));
-const PALETTE = ["var(--ink)", "var(--accent)", "var(--mute)"];
+const DEF = 0.3;
+const PALETTE = ["var(--ink)", "var(--accent)", "var(--mute)", "var(--line)", "var(--ink2)"];
+const DS = {};
+function REGISTER(d){ DS[d.id] = d; }
+let CITY = null, MDS = null, CDS = null;           // 目前選擇的市長、議員資料
+let MAYOR = [], COUNCIL = [], ALL = {}, PROMISE = {}, TARGETS = [];
 let Q = [], idx = 0, ans = [], mode = "both";
+const INTEGRITY = {
+  q: "如果候選人「目前遭檢方起訴、尚未判決」或已有有罪判決，會影響你的選擇嗎？",
+  o: [ { t: "會大幅影響（降低適合度40%）", m: 0.6 }, { t: "稍微影響（降低15%）", m: 0.85 }, { t: "不影響，應等法院判決（無罪推定）", m: 1 } ]
+};
 
-function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
 function show(id){["home","quiz","results"].forEach(x=>$("#"+x).style.display = x===id?"block":"none");window.scrollTo(0,0)}
 function goHome(){show("home")}
-function openPdf(w){window.open(w==="mayor"?SRC.mayorPdf:SRC.d4Pdf,"_blank","noopener")}
 function toggleTheme(){const r=document.documentElement;const dark=r.dataset.theme?r.dataset.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches;r.dataset.theme=dark?"light":"dark";try{localStorage.setItem("theme",r.dataset.theme)}catch(e){}}
 try{const t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}
+const short = t => t.replace(/^(臺北市|新北市)議員/,"").replace("選舉區","選區");
+const areaTxt = d => d.areas && d.areas.length ? d.areas.map(a=>a.replace(/區$/,"")).join("、") : (d.title.match(/（(.+)）/)||[,""])[1];
 
-/* directory */
+/* ---------- 載入資料 ---------- */
+function load(id){
+  if(DS[id]) return Promise.resolve(DS[id]);
+  return new Promise(res=>{const s=document.createElement("script");s.src=`data/${id}.js?v=20261121`;s.onload=()=>res(DS[id]||null);s.onerror=()=>res(null);document.head.appendChild(s)});
+}
+function pickCity(c){
+  CITY=c; document.querySelectorAll("#citySeg button").forEach(b=>b.classList.toggle("on",b.dataset.c===c));
+  const areas=[].concat(...REGIONS[c].council.map(d=>d.areas)).sort((a,b)=>a.localeCompare(b,"zh-Hant"));
+  $("#areaSel").innerHTML=`<option value="">選擇行政區…</option>`+areas.map(a=>`<option>${a}</option>`).join("");
+  $("#indSel").value=""; $("#pkres").innerHTML=""; $("#regionBody").hidden=true; $("#regionSections").hidden=true;
+}
+async function pickArea(area){
+  if(!area){return}
+  const ind=$("#indSel").value, R=REGIONS[CITY];
+  const reg = ind ? R.council.find(d=>d.indigenous===ind) : R.council.find(d=>d.areas.includes(area));
+  $("#pkres").innerHTML=`<span class="pk-load">載入中…</span>`;
+  const [m,c]=await Promise.all([load(R.mayor.id),load(reg.id)]);
+  MDS=m; CDS=c;
+  try{history.replaceState(null,"",`#${CITY}/${encodeURIComponent(area)}${ind?"/"+ind:""}`)}catch(e){}
+  $("#pkres").innerHTML=`你的選票：<b>${R.mayor.title}</b>${m?"":"<span class='pend'>資料查核中</span>"}　＋　<b>${R.name}議員${short(reg.title)}</b>（${reg.areas.length?reg.areas.join("、")+"，":""}應選 ${reg.seats} 席）${c?"":"<span class='pend'>資料查核中</span>"}`;
+  applyData();
+}
+function applyData(){
+  MAYOR = MDS?MDS.candidates:[]; COUNCIL = CDS?CDS.candidates:[];
+  ALL = Object.fromEntries([...MAYOR,...COUNCIL].map(c=>[c.id,c]));
+  PROMISE = Object.fromEntries([...MAYOR,...COUNCIL].map(c=>[c.id,c.promise]));
+  TARGETS = [...(MDS?MDS.integrityTargets:[]),...(CDS?CDS.integrityTargets:[])];
+  const has=MDS||CDS; $("#regionBody").hidden=!has; $("#regionSections").hidden=!has;
+  $("#brandsub").textContent = (MDS?MDS.city:CDS?CDS.city:"") + (CDS?"・議員"+short(CDS.title):"");
+  if(!has){$("#pkres").innerHTML+=`<div class="pend-box">這個選區的資料正在進行第二次查核，確認無誤後就會上線，請稍後再回來。</div>`;return}
+  const mq=MDS?MDS.questions.length:0, cq=CDS?CDS.questions.length:0;
+  const tracked=[...MAYOR,...COUNCIL].filter(c=>c.promise&&!c.promise.na).length;
+  $("#stats").innerHTML=`<div class="stat"><b>${MAYOR.length+COUNCIL.length}</b><span>位候選人（市長${MAYOR.length}・議員${COUNCIL.length}）</span></div>
+    <div class="stat"><b>${mq+cq}</b><span>題選擇題，每題附白話說明</span></div>
+    <div class="stat"><b>100%</b><span>政見取自官方公報原文</span></div>
+    <div class="stat"><b>${tracked}</b><span>位曾任者的政見兌現度追蹤</span></div>`;
+  const md=[], pend=`<p style="color:var(--mute)">資料查核中，稍後上線</p>`;
+  if(MDS&&CDS) md.push(`<button class="mode primary" onclick="start('both')"><span class="tag">推薦・完整版</span><h3>市長＋議員</h3><p>兩張選票一次配對，共 ${mq+cq} 題。</p><span class="go">開始作答 →</span></button>`);
+  md.push(MDS?`<button class="mode ${CDS?"":"primary"}" onclick="start('mayor')"><span class="tag">${mq} 題</span><h3>只配對市長</h3><p>${MAYOR.map(c=>`${c.no}號 ${esc(c.name)}`).join("・")}</p><span class="go">開始 →</span></button>`:`<div class="mode"><h3>市長</h3>${pend}</div>`);
+  md.push(CDS?`<button class="mode ${MDS?"":"primary"}" onclick="start('council')"><span class="tag">${cq} 題</span><h3>只配對議員</h3><p>${short(CDS.title)}（${esc(areaTxt(CDS))}）${COUNCIL.length}人競逐${CDS.seats}席</p><span class="go">開始 →</span></button>`:`<div class="mode"><h3>議員</h3>${pend}</div>`);
+  $("#modes").innerHTML=md.join("");
+  $("#notice").innerHTML=`本站為民間整理的選民參考工具，非中選會或任何政黨、候選人製作，不代表投票建議。所有資料均附來源，請以${MDS?`<a href="${esc(MDS.bulletin)}" target="_blank" rel="noopener">市長公報</a>`:""}${MDS&&CDS?"、":""}${CDS?`<a href="${esc(CDS.bulletin)}" target="_blank" rel="noopener">議員公報</a>`:""}原文為準。`;
+  $("#dirtabs").innerHTML=(MDS?`<button class="chip on" onclick="dirTab('m',this)">市長（${MAYOR.length}）</button>`:"")+(CDS?`<button class="chip ${MDS?"":"on"}" onclick="dirTab('c',this)">議員${short(CDS.title)}（${COUNCIL.length}）</button>`:"");
+  renderDir(MDS?"m":"c"); renderPromises();
+}
+
+/* ---------- 首頁：資料庫、兌現度 ---------- */
 function dirTab(t,el){document.querySelectorAll(".dir-tabs .chip").forEach(c=>c.classList.toggle("on",c===el));renderDir(t)}
 function candBtn(c){
-  const indicted = c.rec && c.rec.some(r=>r.k==="indict" && !/非本人/.test(r.t));
-  return `<button class="cand" onclick="openD('${c.id}')"><span class="no">${c.no}</span><span><b>${esc(c.name)}${c.inc?'<span class="flag inc">現任</span>':''}${indicted?'<span class="flag ind">起訴中</span>':''}</b><small>${esc(c.party)}</small>${pchip(c.id)}</span></button>`;
+  const flagged = TARGETS.includes(c.id);
+  return `<button class="cand" onclick="openD('${c.id}')"><span class="no">${c.no}</span><span><b>${esc(c.name)}${c.inc?'<span class="flag inc">現任</span>':''}${flagged?'<span class="flag ind">司法程序中</span>':''}</b><small>${esc(c.party)}</small>${pchip(c.id)}</span></button>`;
 }
 function pchip(id){const p=PROMISE[id];if(!p)return"";return p.na?'<span class="pchip na">無過往任期</span>':`<span class="pchip">過往政見兌現率 ${p.rate}%</span>`}
 function renderPromises(){
-  const ids=[...MAYOR,...COUNCIL].filter(c=>PROMISE[c.id]&&!PROMISE[c.id].na);
-  $("#pgrid").innerHTML=ids.map(c=>{const p=PROMISE[c.id],tot=p.done+p.partial+p.no;const seg=(n,col)=>tot?`<i style="width:${n/tot*100}%;background:${col}"></i>`:"";
+  const list=[...MAYOR,...COUNCIL];
+  const ids=list.filter(c=>PROMISE[c.id]&&!PROMISE[c.id].na);
+  $("#pgrid").innerHTML=ids.length?ids.map(c=>{const p=PROMISE[c.id],tot=p.done+p.partial+p.no;const seg=(n,col)=>tot?`<i style="width:${n/tot*100}%;background:${col}"></i>`:"";
     return `<button class="pcard" onclick="openD('${c.id}',true)"><div class="ph"><span class="no">${c.no}</span><span class="pn"><b>${esc(c.name)}</b><small>${c.id[0]==="m"?"市長候選人":"議員候選人"}・${esc(c.party)}</small></span></div>
     <div class="big">${p.rate}%<small>過往政見兌現率</small>${tot<5?'<span class="low">樣本少</span>':''}</div>
     <div class="pbar">${seg(p.done,"var(--ok)")}${seg(p.partial,"var(--warn)")}${seg(p.no,"var(--bad)")}</div>
-    <div class="meta">已實現 ${p.done}・部分 ${p.partial}・未實現 ${p.no}・無法查證 ${p.unk||0}<br>依據：${esc(p.basis)}</div></button>`}).join("");
-  const na=[...MAYOR,...COUNCIL].filter(c=>PROMISE[c.id]&&PROMISE[c.id].na).map(c=>`${c.no}號${c.name}${c.id[0]==="m"?"（市長）":""}`);
-  $("#pna").textContent="不適用（未曾當選該職、沒有過往任期政見可追蹤）："+na.join("、");
+    <div class="meta">已實現 ${p.done}・部分 ${p.partial}・未實現 ${p.no}・無法查證 ${p.unk||0}<br>依據：${esc(p.basis)}</div></button>`}).join(""):`<p style="color:var(--mute)">本選區沒有可追蹤過往政見的候選人。</p>`;
+  const na=list.filter(c=>PROMISE[c.id]&&PROMISE[c.id].na).map(c=>`${c.no}號${c.name}${c.id[0]==="m"?"（市長）":""}`);
+  $("#pna").textContent=na.length?"不適用（未曾當選該職、沒有過往任期政見可追蹤）："+na.join("、"):"";
 }
-renderPromises();
 function renderDir(t){$("#dir").innerHTML=(t==="m"?MAYOR:COUNCIL).map(candBtn).join("")}
-renderDir("m");
 
-/* quiz */
+/* ---------- 作答 ---------- */
 function start(m){
   mode=m;
-  const mq = MAYOR_Q.map(q=>({...q,race:"mayor"}));
-  const cq = COUNCIL_Q.map(q=>({...q,race:"council"}));
-  const iq = {cat:"誠信",q:INTEGRITY.q,race:"integrity",o:INTEGRITY.o,note:INTEGRITY.note};
-  Q = m==="mayor"?mq : m==="council"?[...cq,iq] : [...mq,...cq,iq];
+  const mq = (m!=="council"&&MDS)?MDS.questions.map(q=>({...q,race:"mayor"})):[];
+  const cq = (m!=="mayor"&&CDS)?CDS.questions.map(q=>({...q,race:"council"})):[];
+  const tg = TARGETS.filter(id=>(m!=="council"&&id[0]==="m")||(m!=="mayor"&&id[0]==="c"));
+  const iq = tg.length?[{cat:"誠信",q:INTEGRITY.q,race:"integrity",o:INTEGRITY.o,tg,
+    note:`本題只依正式司法紀錄計算。目前${tg.map(id=>`${ALL[id].no}號 ${ALL[id].name}`).join("、")}有起訴中或判決紀錄（詳見其資料頁）；其他候選人不受影響。媒體爆料、對手指控、家屬案件一律不計分。`}]:[];
+  Q=[...mq,...cq,...iq];
   ans = Q.map(()=>({o:null,imp:false})); idx=0; show("quiz"); renderQ();
 }
 function renderQ(){
   const q=Q[idx], a=ans[idx];
-  $("#qsec").textContent = q.race==="mayor"?"市長選舉":q.race==="council"?"議員選舉（第4選區）":"誠信與司法紀錄";
+  $("#qsec").textContent = q.race==="mayor"?MDS.title.replace(/（.+）/,"")+"選舉":q.race==="council"?`議員選舉（${short(CDS.title)}）`:"誠信與司法紀錄";
   $("#qcat").textContent = q.cat;
   $("#qnum").textContent = `第 ${idx+1} 題 / 共 ${Q.length} 題`;
   $("#qtext").textContent = q.q;
   $("#qprog").style.width = (idx/Q.length*100)+"%";
-  $("#qopts").innerHTML = q.o.map((o,i)=>`<button class="opt ${a.o===i?'sel':''}" onclick="pick(${i})"><span class="let">${"ABCDE"[i]}</span><span>${esc(o.t)}</span></button>`).join("");
+  $("#qopts").innerHTML = q.o.map((o,i)=>`<button class="opt ${a.o===i?'sel':''}" onclick="pick(${i})"><span class="let">${"ABCDEF"[i]}</span><span>${esc(o.t)}</span></button>`).join("");
   $("#qimp").checked=a.imp; $("#qimp").parentElement.style.visibility = q.race==="integrity"?"hidden":"visible";
   const n=$("#qnote"); if(q.note){n.hidden=false;n.textContent=q.note}else n.hidden=true;
   renderEx();
@@ -425,67 +497,69 @@ function renderQ(){
 function pick(i){ans[idx].o=i;renderQ();setTimeout(()=>{if(ans[idx].o===i)next()},260)}
 function setImp(v){ans[idx].imp=v}
 function next(){if(ans[idx].o===null)return; if(idx<Q.length-1){idx++;renderQ();window.scrollTo(0,0)}else results()}
-function skip(){ans[idx].o=null; if(idx<Q.length-1){idx++;renderQ()}else results()}
+function skip(){ans[idx].o=null; if(idx<Q.length-1){idx++;renderQ();window.scrollTo(0,0)}else results()}
 function prev(){if(idx>0){idx--;renderQ()}}
 function restart(){start(mode)}
 
 let exOpen=false;
-const EX_INT={bg:"「起訴」代表檢察官認為有犯罪嫌疑、送交法院審理，不等於有罪；依無罪推定原則，判決確定前應視為無罪。但也有選民認為，民意代表涉及職務相關的貪污罪嫌，本身就值得納入考量。",o:["若選此項，起訴中的候選人契合度會乘以0.6。適合把「避免爭議風險」看得很重的人。","若選此項，起訴中的候選人契合度會乘以0.85，只作小幅參考。","若選此項，分數完全不調整，只依政見判斷，等待法院判決。"],src:["https://www.cna.com.tw/news/asoc/202608260218.aspx"]};
-function exData(){const q=Q[idx];if(q.race==="integrity")return EX_INT;
-  const arr=q.race==="mayor"?(typeof EXPLAIN_M!=="undefined"?EXPLAIN_M:null):(typeof EXPLAIN_C!=="undefined"?EXPLAIN_C:null);
-  const base=q.race==="mayor"?MAYOR_Q:COUNCIL_Q;const i=base.findIndex(b=>b.q===q.q);return arr&&arr[i]||null}
+const EX_INT={bg:"「起訴」代表檢察官認為有犯罪嫌疑、送交法院審理，不等於有罪；依無罪推定原則，判決確定前應視為無罪。但也有選民認為，民意代表涉及職務相關的罪嫌，本身就值得納入考量。",o:["若選此項，起訴中或有判決紀錄的候選人契合度會乘以0.6。適合把「避免爭議風險」看得很重的人。","若選此項，相關候選人契合度會乘以0.85，只作小幅參考。","若選此項，分數完全不調整，只依政見判斷，等待法院判決。"],src:[]};
+function exData(){const q=Q[idx];return q.race==="integrity"?EX_INT:(q.ex||null)}
 function renderEx(){const e=exData();$("#exbtn").hidden=!e;const p=$("#expanel");if(!e){p.hidden=true;return}
   p.hidden=!exOpen;$("#exhint").textContent=exOpen?"收合":"展開";
-  if(exOpen)p.innerHTML=`<h5>背景</h5><div>${esc(e.bg)}</div>${Q[idx].o.map((o,i)=>`<div class="exo"><b>${"ABCDE"[i]}</b><div><strong>${esc(o.t)}</strong>${esc(e.o[i]||"")}</div></div>`).join("")}
+  if(exOpen)p.innerHTML=`<h5>背景</h5><div>${esc(e.bg)}</div>${Q[idx].o.map((o,i)=>`<div class="exo"><b>${"ABCDEF"[i]}</b><div><strong>${esc(o.t)}</strong>${esc(e.o[i]||"")}</div></div>`).join("")}
   ${e.src&&e.src.length?`<div class="exsrc">參考資料：${e.src.map((u,i)=>`<a href="${esc(u)}" target="_blank" rel="noopener">來源${i+1}↗</a>`).join("")}</div>`:""}`}
 function toggleEx(){exOpen=!exOpen;renderEx()}
-/* scoring */
+
+/* ---------- 計分 ---------- */
 function score(race, list){
   const tot={},max={},why={};list.forEach(c=>{tot[c.id]=0;max[c.id]=0;why[c.id]=[]});
+  let integ=null;
   Q.forEach((q,qi)=>{
-    if(q.race!==race)return; const a=ans[qi]; if(a.o===null)return; const o=q.o[a.o]; if(!o.s)return;
+    const a=ans[qi]; if(a.o===null)return;
+    if(q.race==="integrity"){integ=INTEGRITY.o[a.o];return}
+    if(q.race!==race)return; const o=q.o[a.o]; if(!o.s)return;
     const w=a.imp?2:1;
     list.forEach(c=>{const s=(c.id in o.s)?o.s[c.id]:DEF; tot[c.id]+=w*s; max[c.id]+=w; if(s>=0.8) why[c.id].push({q:q.cat,t:o.t,w:o.why,s:s*w})});
   });
-  let mult=1, integrityAns=null;
-  Q.forEach((q,qi)=>{if(q.race==="integrity"&&ans[qi].o!==null)integrityAns=INTEGRITY.o[ans[qi].o]});
   return list.map(c=>{
     let m = max[c.id]?tot[c.id]/max[c.id]:0, adj=null;
-    if(integrityAns && INTEGRITY.targets.includes(c.id) && integrityAns.m<1){m*=integrityAns.m;adj=`依你的誠信題選擇，因「起訴中」調降 ${Math.round((1-integrityAns.m)*100)}%`}
+    if(integ && TARGETS.includes(c.id) && integ.m<1){m*=integ.m;adj=`依你的誠信題選擇，因司法紀錄調降 ${Math.round((1-integ.m)*100)}%`}
     return {c,m,adj,why:why[c.id].sort((a,b)=>b.s-a.s),answered:max[c.id]>0};
   });
 }
 function results(){LAST={mayor:null,council:null};
   show("results");
+  $("#reyebrow").textContent=`你的配對結果｜${MDS?MDS.city:CDS.city}${CDS&&mode!=="mayor"?"・議員"+short(CDS.title):""}`;
   let lead=[];
-  if(mode!=="council"){
+  if(mode!=="council"&&MDS){
     const r=score("mayor",MAYOR); const any=r.some(x=>x.answered);
     if(!any){$("#rmayor").innerHTML=`<div class="rcard"><h3>市長</h3><p>你跳過了所有市長題目，無法計算。</p></div>`}
     else{
       const k=3, pw=r.map(x=>Math.pow(x.m,k)), sum=pw.reduce((a,b)=>a+b,0)||1;
       r.forEach((x,i)=>x.share=pw[i]/sum*100);
-      // round to sum 100
       let rounded=r.map(x=>Math.floor(x.share)); let rem=100-rounded.reduce((a,b)=>a+b,0);
       r.map((x,i)=>[x.share-rounded[i],i]).sort((a,b)=>b[0]-a[0]).slice(0,rem).forEach(([,i])=>rounded[i]++);
       r.forEach((x,i)=>x.pct=rounded[i]);
       const sorted=[...r].sort((a,b)=>b.pct-a.pct);LAST.mayor=sorted;
       lead.push(`市長：${sorted[0].c.no}號 ${sorted[0].c.name}（${sorted[0].pct}%）`);
-      $("#rmayor").innerHTML=`<div class="rcard"><h3>新北市長｜適合度</h3><p class="hint">三人加總 100%。「政見契合度」為你與該候選人公報政見的直接吻合程度。</p>
-      <div class="stack">${sorted.map((x,i)=>`<i style="width:${x.pct}%;background:${PALETTE[i]}" title="${x.c.name} ${x.pct}%"></i>`).join("")}</div>
+      $("#rmayor").innerHTML=`<div class="rcard"><h3>${esc(MDS.title.replace(/（.+）/,""))}｜適合度</h3><p class="hint">${MAYOR.length}位候選人加總 100%。「政見契合度」為你與該候選人公報政見的直接吻合程度。</p>
+      <div class="stack">${sorted.map((x,i)=>`<i style="width:${x.pct}%;background:${PALETTE[i%PALETTE.length]}" title="${esc(x.c.name)} ${x.pct}%"></i>`).join("")}</div>
       ${sorted.map((x,i)=>`<div class="mrow"><span class="no" style="${i===0?'background:var(--ink);color:var(--paper)':''}">${x.c.no}</span>
         <div><div class="mname">${esc(x.c.name)}<span>${esc(x.c.party)}</span>${pchip(x.c.id)}</div><div class="raw">政見契合度 ${Math.round(x.m*100)}%</div>
+        ${x.adj?`<div class="adj">${esc(x.adj)}</div>`:''}
         ${x.why.length?`<ul class="why">${x.why.slice(0,3).map(w=>`<li>【${esc(w.q)}】${esc(w.t)}<br><span style="color:var(--mute)">依據：${esc(w.w)}</span></li>`).join("")}</ul>`:''}
         <button class="linkbtn" onclick="openD('${x.c.id}')">查看完整資料、查核與紀錄</button></div>
         <div class="pct">${x.pct}<small>%</small></div></div>`).join("")}</div>`;
     }
   } else $("#rmayor").innerHTML="";
-  if(mode!=="mayor"){
+  if(mode!=="mayor"&&CDS){
+    const S=CDS.seats;
     const r=score("council",COUNCIL).sort((a,b)=>b.m-a.m);LAST.council=r;
     if(!r.some(x=>x.answered)){$("#rcouncil").innerHTML=`<div class="rcard"><h3>議員</h3><p>你跳過了所有議員題目，無法計算。</p></div>`}
     else{
       lead.push(`議員：${r[0].c.no}號 ${r[0].c.name}（契合度 ${Math.round(r[0].m*100)}%）`);
-      $("#rcouncil").innerHTML=`<div class="rcard"><h3>市議員第4選區｜政見契合度排行</h3><p class="hint">17 位候選人各自的契合度（0–100%）。本區應選 9 席，但每位選民只能投 1 票；前 9 名以深色標示僅供參考。點名字看完整資料。</p>
-      ${r.map((x,i)=>`${i===9?'<div class="divider9">以下為第 10 名之後</div>':''}<div class="crow ${i<9?'top9':''}"><span class="no">${x.c.no}</span>
+      $("#rcouncil").innerHTML=`<div class="rcard"><h3>市議員${esc(short(CDS.title))}｜政見契合度排行</h3><p class="hint">${COUNCIL.length} 位候選人各自的契合度（0–100%）。本區應選 ${S} 席，但每位選民只能投 1 票；前 ${S} 名以深色標示僅供參考。點名字看完整資料。</p>
+      ${r.map((x,i)=>`${i===S&&S<r.length?`<div class="divider9">以下為第 ${S+1} 名之後</div>`:''}<div class="crow ${i<S?'top9':''}"><span class="no">${x.c.no}</span>
         <div><button class="linkbtn" style="margin:0;text-decoration:none;color:var(--ink);font-size:16px" onclick="openD('${x.c.id}')">${esc(x.c.name)}</button> <small style="color:var(--mute)">${esc(x.c.party)}${x.c.inc?'・現任':''}</small>${pchip(x.c.id)}
         ${x.adj?`<div class="adj">${esc(x.adj)}</div>`:''}
         <div class="cbar"><i style="width:${Math.round(x.m*100)}%"></i></div>
@@ -496,13 +570,15 @@ function results(){LAST={mayor:null,council:null};
   $("#rlead").textContent = lead.join("　｜　");
 }
 
-/* share card & print appendix */
+/* ---------- 分享圖卡、PDF 附錄 ---------- */
 let LAST={mayor:null,council:null};
 function openShare(){
-  const m=LAST.mayor,c=LAST.council;let h=`<div class="s-top"><span class="s-mark">配</span>政見配對 2026・三重區</div>
-  <h2>我的政見配對結果</h2><div class="s-sub">新北市長・市議員第4選區（三重、蘆洲）｜11/28 投票</div>`;
-  if(m){h+=`<div class="s-sec"><div class="s-h">新北市長｜適合度</div>${m.map((x,i)=>`<div class="s-row ${i===0?'first':''}"><span class="s-no">${x.c.no}</span><div><div class="s-name">${esc(x.c.name)}<small>${esc(x.c.party)}</small></div><div class="s-bar"><i style="width:${x.pct}%"></i></div></div><div class="s-pct">${x.pct}<small>%</small></div></div>${i===0&&x.why[0]?`<div class="s-why">最契合：${esc(x.why[0].t)}</div>`:''}`).join("")}</div>`}
-  if(c){const n=m?3:6;h+=`<div class="s-sec"><div class="s-h">市議員第4選區｜契合度前 ${n} 名</div>${c.slice(0,n).map((x,i)=>`<div class="s-row ${i===0?'first':''}"><span class="s-no">${x.c.no}</span><div><div class="s-name">${esc(x.c.name)}<small>${esc(x.c.party)}</small></div><div class="s-bar"><i style="width:${Math.round(x.m*100)}%"></i></div></div><div class="s-pct">${Math.round(x.m*100)}<small>%</small></div></div>`).join("")}</div>`}
+  const m=LAST.mayor,c=LAST.council;
+  const where=CDS&&c?areaTxt(CDS):(MDS?MDS.city:"");
+  let h=`<div class="s-top"><span class="s-mark">配</span>政見配對 2026・${esc(where)}</div>
+  <h2>我的政見配對結果</h2><div class="s-sub">${m?esc(MDS.title.replace(/（.+）/,"")):""}${m&&c?"・":""}${c?"議員"+esc(short(CDS.title))+"（"+esc(areaTxt(CDS))+"）":""}｜11/28 投票</div>`;
+  if(m){h+=`<div class="s-sec"><div class="s-h">${esc(MDS.title.replace(/（.+）/,""))}｜適合度</div>${m.slice(0,4).map((x,i)=>`<div class="s-row ${i===0?'first':''}"><span class="s-no">${x.c.no}</span><div><div class="s-name">${esc(x.c.name)}<small>${esc(x.c.party)}</small></div><div class="s-bar"><i style="width:${x.pct}%"></i></div></div><div class="s-pct">${x.pct}<small>%</small></div></div>${i===0&&x.why[0]?`<div class="s-why">最契合：${esc(x.why[0].t)}</div>`:''}`).join("")}</div>`}
+  if(c){const n=m?3:6;h+=`<div class="s-sec"><div class="s-h">市議員${esc(short(CDS.title))}｜契合度前 ${n} 名</div>${c.slice(0,n).map((x,i)=>`<div class="s-row ${i===0?'first':''}"><span class="s-no">${x.c.no}</span><div><div class="s-name">${esc(x.c.name)}<small>${esc(x.c.party)}</small></div><div class="s-bar"><i style="width:${Math.round(x.m*100)}%"></i></div></div><div class="s-pct">${Math.round(x.m*100)}<small>%</small></div></div>`).join("")}</div>`}
   h+=`<div class="s-foot"><span>依中選會官方公報計算<br>非投票建議・資料至 2026/11/21</span><b>aa38aa38-oss.github.io/<br>usagi-game/election-quiz</b></div>`;
   $("#card").innerHTML=h;$("#shareov").hidden=false;document.body.style.overflow="hidden";
 }
@@ -518,18 +594,19 @@ function saveCard(){
   if(window.html2canvas)go();else{const sc=document.createElement("script");sc.src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";sc.onload=go;sc.onerror=()=>{b.textContent="請直接截圖"};document.head.appendChild(sc)}
 }
 function printAppendix(){
-  const list=[];if(LAST.mayor)LAST.mayor.forEach(x=>list.push(x.c));if(LAST.council)LAST.council.slice(0,9).forEach(x=>list.push(x.c));
+  const S=CDS?CDS.seats:9;
+  const list=[];if(LAST.mayor)LAST.mayor.forEach(x=>list.push(x.c));if(LAST.council)LAST.council.slice(0,S).forEach(x=>list.push(x.c));
   const card=c=>{const p=PROMISE[c.id];return `<div class="pr-c"><h4>${c.no}號 ${esc(c.name)}｜${esc(c.party)}${c.inc?"・現任":""}</h4>
     <b>學經歷：</b>${esc(c.edu[0])}；${esc(c.exp.slice(0,3).join("、"))}<br>
     <b>公報政見：</b><ul>${c.platform.map(t=>`<li>${esc(t)}</li>`).join("")}</ul>
     <b>過往政見兌現率：</b>${p?(p.na?esc(p.na):`${p.rate}%（已實現${p.done}・部分${p.partial}・未實現${p.no}・無法查證${p.unk||0}；${esc(p.basis)}）`):"—"}<br>
     <b>正面紀錄：</b>${c.pos.map(r=>esc(r.t)).join("；")}<br>
     <b>爭議與司法紀錄：</b>${c.rec.map(r=>`［${RT[r.k]}］${esc(r.t)}`).join("；")}</div>`};
-  $("#rprint").innerHTML=`<div class="pr-h">附錄：候選人詳細資料</div><p style="font-size:12px;color:var(--mute)">${LAST.mayor?"市長候選人 3 位":""}${LAST.mayor&&LAST.council?"、":""}${LAST.council?"議員契合度前 9 名":""}。各筆資料的來源連結請見網站候選人頁面。</p>${list.map(card).join("")}`;
+  $("#rprint").innerHTML=`<div class="pr-h">附錄：候選人詳細資料</div><p style="font-size:12px;color:var(--mute)">${LAST.mayor?`市長候選人 ${MAYOR.length} 位`:""}${LAST.mayor&&LAST.council?"、":""}${LAST.council?`議員契合度前 ${S} 名`:""}。各筆資料的來源連結請見網站候選人頁面。</p>${list.map(card).join("")}`;
 }
 window.addEventListener("beforeprint",()=>{if($("#results").style.display==="block")printAppendix()});
 
-/* drawer-js */
+/* ---------- 候選人資料頁 ---------- */
 const RT={accuse:"指控",indict:"起訴中",ruling:"判決",agency:"機關認定",critique:"政治批評",victim:"被害方",party:"黨紀",none:"查無",ok:"已證實",warn:"有爭議",na:"未證實"};
 function srcLink(u){return u?`<a class="src" href="${esc(u)}" target="_blank" rel="noopener">來源↗</a>`:""}
 function promiseHTML(id){
@@ -537,21 +614,21 @@ function promiseHTML(id){
   if(!p) return `<div class="pbox" style="color:var(--mute)">兌現度資料整理中。</div>`;
   if(p.na) return `<div class="pbox"><span class="rt na">不適用</span>${esc(p.na)}</div>`;
   const tot=p.done+p.partial+p.no; const seg=(n,c)=>tot?`<i style="width:${n/tot*100}%;background:${c}"></i>`:"";
-  return `<div class="pbox"><div class="prate"><b>${p.rate==null?"—":p.rate+"%"}</b><span style="color:var(--ink2);font-size:14px">兌現率（依${esc(p.basis)}，可查證 ${tot} 項）</span></div>
+  return `<div class="pbox"><div class="prate"><b>${p.rate==null?"—":p.rate+"%"}</b><span style="color:var(--ink2);font-size:14px">過往政見兌現率（依${esc(p.basis)}，可查證 ${tot} 項）</span></div>
   <div class="pbar">${seg(p.done,"var(--ok)")}${seg(p.partial,"var(--warn)")}${seg(p.no,"var(--bad)")}</div>
   <div class="legend"><span style="--c:var(--ok)">已實現 ${p.done}</span><span style="--c:var(--warn)">部分／進行中 ${p.partial}</span><span style="--c:var(--bad)">未實現 ${p.no}</span><span style="--c:var(--line)">無法查證 ${p.unk||0}</span></div>
   ${p.items?`<ul class="recs" style="margin-top:10px">${p.items.map(it=>`<li><span class="rt ${({"已實現":"victim","部分":"accuse","未實現":"indict","無法查證":"none"})[it.s]||'none'}">${esc(it.s)}</span>${esc(it.t)}${srcLink(it.u)}</li>`).join("")}</ul>`:""}
   ${p.note?`<p style="font-size:12.5px;color:var(--mute);margin:8px 0 0">${esc(p.note)}</p>`:""}</div>`;
 }
-function openD(id,toPromise){
-  const c=ALL[id], isM=id[0]==="m";
+function openD(id){
+  const c=ALL[id], ds=id[0]==="m"?MDS:CDS;
   $("#drawer").innerHTML=`<div class="dhead"><span class="no">${c.no}</span><div><h3>${esc(c.name)}</h3><small>${esc(c.party)}・${esc(c.gender)}・${esc(c.born)}${c.inc?"・現任":""}</small></div><button class="x" onclick="closeD()" aria-label="關閉">×</button></div>
   <div class="dbody">
     <div class="dsec" id="dprom"><h4>過往政見兌現度</h4>${promiseHTML(id)}</div>
     <div class="dsec"><h4>學歷（公報）</h4><ul>${c.edu.map(e=>`<li>${esc(e)}</li>`).join("")}</ul></div>
     <div class="dsec"><h4>經歷（公報）</h4><ul>${c.exp.map(e=>`<li>${esc(e)}</li>`).join("")}</ul></div>
-    <div class="dsec"><h4>公報政見摘要</h4><ul>${c.platform.map(e=>`<li>${esc(e)}</li>`).join("")}</ul><p style="font-size:13px;margin:6px 0 0"><a href="javascript:void(0)" onclick="openPdf('${isM?"mayor":"d4"}')">查看官方公報原文 ↗</a></p></div>
-    ${c.check?`<div class="dsec"><h4>事實查核</h4><ul class="recs">${c.check.map(r=>`<li><span class="rt ${r.s}">${RT[r.s]}</span>${esc(r.t)}${srcLink(r.u)}</li>`).join("")}</ul></div>`:""}
+    <div class="dsec"><h4>公報政見摘要</h4><ul>${c.platform.map(e=>`<li>${esc(e)}</li>`).join("")}</ul><p style="font-size:13px;margin:6px 0 0"><a href="${esc(ds.bulletin)}" target="_blank" rel="noopener">查看官方公報原文 ↗</a></p></div>
+    ${c.check&&c.check.length?`<div class="dsec"><h4>事實查核</h4><ul class="recs">${c.check.map(r=>`<li><span class="rt ${r.s}">${RT[r.s]}</span>${esc(r.t)}${srcLink(r.u)}</li>`).join("")}</ul></div>`:""}
     <div class="dsec"><h4>正面紀錄</h4><ul class="recs">${c.pos.map(r=>`<li>${esc(r.t)}${srcLink(r.u)}</li>`).join("")}</ul></div>
     <div class="dsec"><h4>爭議與司法紀錄</h4><ul class="recs">${c.rec.map(r=>`<li><span class="rt ${r.k}">${RT[r.k]}</span>${esc(r.t)}${srcLink(r.u)}</li>`).join("")}</ul>
     <p style="font-size:12.5px;color:var(--mute)">「指控」不等於事實；「起訴」仍適用無罪推定；「查無」只代表公開資料中未找到。</p></div>
@@ -560,6 +637,13 @@ function openD(id,toPromise){
 }
 function closeD(){$("#ov").style.display="none";$("#drawer").classList.remove("open");$("#drawer").setAttribute("aria-hidden","true")}
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeD()});
+
+/* ---------- 初始化（支援分享網址 #ntpc/三重區） ---------- */
+(function init(){
+  const h=decodeURIComponent(location.hash.slice(1)).split("/");
+  if(REGIONS[h[0]]){pickCity(h[0]);if(h[1]){$("#areaSel").value=h[1];if(h[2])$("#indSel").value=h[2];pickArea(h[1])}}
+  else pickCity("ntpc");
+})();
 </script>
 </body>
 </html>
