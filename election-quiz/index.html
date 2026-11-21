@@ -145,7 +145,7 @@ h2{font-family:"Noto Serif TC";font-size:clamp(24px,3.4vw,32px);margin:0 0 6px}
 .dhead .no{width:52px;height:52px;font-size:24px}
 .dhead h3{margin:0;font-family:"Noto Serif TC";font-size:24px;line-height:1.2}
 .dhead small{color:var(--mute)}
-.x{margin-left:auto;border:1px solid var(--line);background:var(--card);border-radius:10px;width:38px;height:38px;font-size:20px;color:var(--ink)}
+.x{flex:none;border:1px solid var(--line);background:var(--card);border-radius:10px;height:40px;padding:0 12px 0 8px;font-size:15px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:2px}.x span{font-size:22px;line-height:1;margin-top:-2px}
 .dbody{padding:8px 20px 40px}
 .dsec{margin:22px 0 0}
 .dsec h4{font-size:13px;letter-spacing:.12em;color:var(--accent-ink);margin:0 0 8px;font-weight:700}
@@ -168,10 +168,10 @@ h2{font-family:"Noto Serif TC";font-size:clamp(24px,3.4vw,32px);margin:0 0 6px}
 .src{font-size:12px;margin-left:4px;white-space:nowrap}
 .pbox{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
 .prate{display:flex;align-items:baseline;gap:10px}
-.prate b{font-family:"Noto Serif TC";font-size:34px;line-height:1}
+.prate b{font-family:"Noto Serif TC";font-size:28px;line-height:1}
 .pbar{display:flex;height:10px;border-radius:99px;overflow:hidden;background:var(--line);margin:10px 0}
 .pbar i{display:block;height:100%}
-.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--ink2)}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:14px;color:var(--ink2)}
 .legend span:before{content:"";display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:5px;background:var(--c)}
 /* method */
 .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
@@ -186,11 +186,11 @@ h2{font-family:"Noto Serif TC";font-size:clamp(24px,3.4vw,32px);margin:0 0 6px}
 .pcard .ph{display:flex;align-items:center;gap:10px}
 .pcard .no{width:34px;height:34px;font-size:16px}
 .pcard .pn b{display:block;font-size:16px;line-height:1.3}.pcard .pn small{color:var(--mute);font-size:12px}
-.pcard .big{font-family:"Noto Serif TC";font-weight:900;font-size:40px;line-height:1}
-.pcard .big small{font-size:15px;font-weight:700;color:var(--mute);margin-left:6px;font-family:"Noto Sans TC"}
+.pcard .big{font-family:"Noto Serif TC";font-weight:900;font-size:28px;line-height:1.2}
+.pcard .big small{font-size:16px;font-weight:700;color:var(--ink2);margin-left:6px;font-family:"Noto Sans TC"}
 .pcard .pbar{margin:0}
-.pcard .meta{font-size:12px;color:var(--mute)}
-.low{display:inline-block;font-size:11px;font-weight:700;color:var(--warn);border:1px solid var(--warn);border-radius:6px;padding:0 6px;margin-left:6px;vertical-align:3px}
+.pcard .meta{font-size:15px;color:var(--ink2);line-height:1.65}.pcard .basis{font-size:15px;color:var(--ink);background:var(--accent-soft);border-radius:8px;padding:8px 10px;line-height:1.6}.pcard .basis b{color:var(--accent-ink)}
+.low{display:inline-block;font-size:13px;font-weight:700;color:var(--warn);border:1px solid var(--warn);border-radius:6px;padding:0 6px;margin-left:6px;vertical-align:3px}
 .feature{display:grid;grid-template-columns:1.1fr 1fr;gap:24px;align-items:center;background:var(--ink);color:var(--paper);border-radius:20px;padding:clamp(20px,4vw,36px);margin-bottom:22px}
 .feature h2{color:var(--paper)}.feature p{color:color-mix(in srgb,var(--paper) 75%,transparent);margin:0}
 .feature .k{font-size:12px;letter-spacing:.14em;color:var(--accent);font-weight:700}
@@ -275,7 +275,7 @@ div.mode{cursor:default;opacity:.7}
 <body>
 <header class="top"><div class="wrap">
   <a class="brand" onclick="goHome()" role="button" tabindex="0"><span class="mark">配</span><span>政見配對 2026<small id="brandsub">臺北市・新北市 市長與議員</small></span></a>
-  <nav class="nav"><a href="#promises" onclick="goHome()">兌現度</a><a href="#people" onclick="goHome()">候選人</a><a href="#method" class="hide-s" onclick="goHome()">方法說明</a><a href="#" onclick="toggleTheme();return false" aria-label="切換深淺色">◐</a></nav>
+  <nav class="nav"><a href="#people" onclick="goHome()">候選人</a><a href="#promises" onclick="goHome()">兌現度</a><a href="#method" class="hide-s" onclick="goHome()">方法說明</a><a href="#" onclick="toggleTheme();return false" aria-label="切換深淺色">◐</a></nav>
 </div></header>
 
 <main id="home">
@@ -375,7 +375,7 @@ div.mode{cursor:default;opacity:.7}
   <div class="share-tip">直接截圖這個畫面，或按「儲存圖片」</div>
   <div id="card" class="scard"></div>
 </div>
-<div class="ov" id="ov" onclick="closeD()"></div>
+<div class="ov" id="ov" onclick="history.state&&history.state.d?history.back():closeD()"></div>
 <aside class="drawer" id="drawer" aria-hidden="true"></aside>
 
 <footer><div class="wrap">
@@ -465,7 +465,8 @@ function renderPromises(){
     return `<button class="pcard" onclick="openD('${c.id}',true)"><div class="ph"><span class="no">${c.no}</span><span class="pn"><b>${esc(c.name)}</b><small>${c.id[0]==="m"?"市長候選人":"議員候選人"}・${esc(c.party)}</small></span></div>
     <div class="big">${p.rate}%<small>過往政見兌現率</small>${tot<5?'<span class="low">樣本少</span>':''}</div>
     <div class="pbar">${seg(p.done,"var(--ok)")}${seg(p.partial,"var(--warn)")}${seg(p.no,"var(--bad)")}</div>
-    <div class="meta">已實現 ${p.done}・部分 ${p.partial}・未實現 ${p.no}・無法查證 ${p.unk||0}<br>依據：${esc(p.basis)}</div></button>`}).join(""):`<p style="color:var(--mute)">本選區沒有可追蹤過往政見的候選人。</p>`;
+    <div class="meta">已實現 ${p.done}・部分 ${p.partial}・未實現 ${p.no}・無法查證 ${p.unk||0}（可查證 ${tot} 項）</div>
+    <div class="basis"><b>計算依據：</b>${esc(p.basis)}</div></button>`}).join(""):`<p style="color:var(--mute)">本選區沒有可追蹤過往政見的候選人。</p>`;
   const na=list.filter(c=>PROMISE[c.id]&&PROMISE[c.id].na).map(c=>`${c.no}號${c.name}${c.id[0]==="m"?"（市長）":""}`);
   $("#pna").textContent=na.length?"不適用（未曾當選該職、沒有過往任期政見可追蹤）："+na.join("、"):"";
 }
@@ -631,7 +632,8 @@ function promiseHTML(id){
   if(!p) return `<div class="pbox" style="color:var(--mute)">兌現度資料整理中。</div>`;
   if(p.na) return `<div class="pbox"><span class="rt na">不適用</span>${esc(p.na)}</div>`;
   const tot=p.done+p.partial+p.no; const seg=(n,c)=>tot?`<i style="width:${n/tot*100}%;background:${c}"></i>`:"";
-  return `<div class="pbox"><div class="prate"><b>${p.rate==null?"—":p.rate+"%"}</b><span style="color:var(--ink2);font-size:14px">過往政見兌現率（依${esc(p.basis)}，可查證 ${tot} 項）</span></div>
+  return `<div class="pbox"><div class="prate"><b>${p.rate==null?"—":p.rate+"%"}</b><span style="color:var(--ink2);font-size:15px;font-weight:700">過往政見兌現率（可查證 ${tot} 項）</span></div>
+  <div class="basis" style="font-size:15px;background:var(--accent-soft);border-radius:8px;padding:8px 10px;margin-top:8px;line-height:1.6"><b style="color:var(--accent-ink)">計算依據：</b>${esc(p.basis)}</div>
   <div class="pbar">${seg(p.done,"var(--ok)")}${seg(p.partial,"var(--warn)")}${seg(p.no,"var(--bad)")}</div>
   <div class="legend"><span style="--c:var(--ok)">已實現 ${p.done}</span><span style="--c:var(--warn)">部分／進行中 ${p.partial}</span><span style="--c:var(--bad)">未實現 ${p.no}</span><span style="--c:var(--line)">無法查證 ${p.unk||0}</span></div>
   ${p.items?`<ul class="recs" style="margin-top:10px">${p.items.map(it=>`<li><span class="rt ${({"已實現":"victim","部分":"accuse","未實現":"indict","無法查證":"none"})[it.s]||'none'}">${esc(it.s)}</span>${esc(it.t)}${srcLink(it.u)}</li>`).join("")}</ul>`:""}
@@ -639,7 +641,7 @@ function promiseHTML(id){
 }
 function openD(id){
   const c=ALL[id], ds=id[0]==="m"?MDS:CDS;
-  $("#drawer").innerHTML=`<div class="dhead"><span class="no">${c.no}</span><div><h3>${esc(c.name)}</h3><small>${esc(c.party)}・${esc(c.gender)}・${esc(c.born)}${c.inc?"・現任":""}</small></div><button class="x" onclick="closeD()" aria-label="關閉">×</button></div>
+  $("#drawer").innerHTML=`<div class="dhead"><button class="x" onclick="history.state&&history.state.d?history.back():closeD()" aria-label="返回"><span>‹</span>返回</button><span class="no">${c.no}</span><div><h3>${esc(c.name)}</h3><small>${esc(c.party)}・${esc(c.gender)}・${esc(c.born)}${c.inc?"・現任":""}</small></div></div>
   <div class="dbody">
     <div class="dsec" id="dprom"><h4>過往政見兌現度</h4>${promiseHTML(id)}</div>
     <div class="dsec"><h4>學歷（公報）</h4><ul>${c.edu.map(e=>`<li>${esc(e)}</li>`).join("")}</ul></div>
@@ -650,10 +652,12 @@ function openD(id){
     <div class="dsec"><h4>爭議與司法紀錄</h4><ul class="recs">${c.rec.map(r=>`<li><span class="rt ${r.k}">${RT[r.k]}</span>${esc(r.t)}${srcLink(r.u)}</li>`).join("")}</ul>
     <p style="font-size:12.5px;color:var(--mute)">「指控」不等於事實；「起訴」仍適用無罪推定；「查無」只代表公開資料中未找到。</p></div>
   </div>`;
+  if(!(history.state&&history.state.d)){try{history.pushState({d:1},"")}catch(e){}}
   $("#ov").style.display="block"; $("#drawer").classList.add("open"); $("#drawer").setAttribute("aria-hidden","false"); $("#drawer").scrollTop=0;
 }
 function closeD(){$("#ov").style.display="none";$("#drawer").classList.remove("open");$("#drawer").setAttribute("aria-hidden","true")}
-document.addEventListener("keydown",e=>{if(e.key==="Escape")closeD()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&$("#drawer").classList.contains("open"))history.state&&history.state.d?history.back():closeD()});
+window.addEventListener("popstate",()=>{if($("#drawer").classList.contains("open"))closeD()});
 
 /* ---------- 初始化（支援分享網址 #ntpc/三重區） ---------- */
 (function init(){
