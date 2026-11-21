@@ -374,7 +374,7 @@ function renderQ(){
 }
 function pick(i){ans[idx].o=i;renderQ();setTimeout(()=>{if(ans[idx].o===i)next()},260)}
 function setImp(v){ans[idx].imp=v}
-function next(){if(ans[idx].o===null)return; if(idx<Q.length-1){idx++;renderQ()}else results()}
+function next(){if(ans[idx].o===null)return; if(idx<Q.length-1){idx++;renderQ();window.scrollTo(0,0)}else results()}
 function skip(){ans[idx].o=null; if(idx<Q.length-1){idx++;renderQ()}else results()}
 function prev(){if(idx>0){idx--;renderQ()}}
 function restart(){start(mode)}
