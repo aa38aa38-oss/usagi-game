@@ -179,6 +179,36 @@ h2{font-family:"Noto Serif TC";font-size:clamp(24px,3.4vw,32px);margin:0 0 6px}
 .mcard h4{margin:0 0 6px;font-family:"Noto Serif TC";font-size:18px}
 .mcard p{margin:0;font-size:14px;color:var(--ink2)}
 .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.pcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;text-align:left;color:var(--ink);display:flex;flex-direction:column;gap:8px;transition:border-color .15s,transform .15s}
+.pcard:hover{border-color:var(--accent);transform:translateY(-2px)}
+.pcard .ph{display:flex;align-items:center;gap:10px}
+.pcard .no{width:34px;height:34px;font-size:16px}
+.pcard .pn b{display:block;font-size:16px;line-height:1.3}.pcard .pn small{color:var(--mute);font-size:12px}
+.pcard .big{font-family:"Noto Serif TC";font-weight:900;font-size:40px;line-height:1}
+.pcard .big small{font-size:15px;font-weight:700;color:var(--mute);margin-left:6px;font-family:"Noto Sans TC"}
+.pcard .pbar{margin:0}
+.pcard .meta{font-size:12px;color:var(--mute)}
+.low{display:inline-block;font-size:11px;font-weight:700;color:var(--warn);border:1px solid var(--warn);border-radius:6px;padding:0 6px;margin-left:6px;vertical-align:3px}
+.feature{display:grid;grid-template-columns:1.1fr 1fr;gap:24px;align-items:center;background:var(--ink);color:var(--paper);border-radius:20px;padding:clamp(20px,4vw,36px);margin-bottom:22px}
+.feature h2{color:var(--paper)}.feature p{color:color-mix(in srgb,var(--paper) 75%,transparent);margin:0}
+.feature .k{font-size:12px;letter-spacing:.14em;color:var(--accent);font-weight:700}
+.howto{list-style:none;padding:0;margin:0;display:grid;gap:10px;font-size:14px}
+.howto li{display:flex;gap:10px;align-items:flex-start;color:color-mix(in srgb,var(--paper) 85%,transparent)}
+.howto i{flex:none;font-style:normal;width:22px;height:22px;border-radius:6px;display:grid;place-items:center;font-size:12px;font-weight:700}
+@media(max-width:760px){.feature{grid-template-columns:1fr}}
+.pchip{display:inline-block;font-size:12px;font-weight:700;padding:2px 9px;border-radius:99px;background:var(--accent-soft);color:var(--accent-ink);margin-left:6px;vertical-align:2px;white-space:nowrap}
+.pchip.na{background:var(--line);color:var(--mute);font-weight:500}
+.cand .pchip{margin:4px 0 0;display:inline-block}
+.exbtn{margin-top:16px;display:flex;align-items:center;gap:8px;width:100%;text-align:left;background:var(--accent-soft);color:var(--accent-ink);border:1px solid color-mix(in srgb,var(--accent) 40%,transparent);border-radius:12px;padding:12px 16px;font-weight:700;font-size:15px}
+.exbtn span{margin-left:auto;font-size:13px;font-weight:500}
+.expanel{margin-top:10px;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px 18px;font-size:14.5px;color:var(--ink2)}
+.expanel h5{margin:0 0 6px;font-size:13px;letter-spacing:.1em;color:var(--accent-ink)}
+.expanel .exo{display:flex;gap:10px;margin:12px 0 0}
+.expanel .exo b{flex:none;width:24px;height:24px;border-radius:7px;border:1.5px solid var(--ink2);display:grid;place-items:center;font-size:12.5px;color:var(--ink)}
+.expanel .exo div strong{display:block;color:var(--ink);font-size:14.5px}
+.expanel .exsrc{margin-top:12px;font-size:12px}
+.expanel .exsrc a{margin-right:10px}
 footer{border-top:1px solid var(--line);padding:28px 0 40px;font-size:13px;color:var(--mute)}
 .share{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
 @media print{.top,.btns,.share{display:none}}
@@ -187,19 +217,19 @@ footer{border-top:1px solid var(--line);padding:28px 0 40px;font-size:13px;color
 <body>
 <header class="top"><div class="wrap">
   <a class="brand" onclick="goHome()" role="button" tabindex="0"><span class="mark">配</span><span>政見配對 2026<small>新北市長・市議員第4選區</small></span></a>
-  <nav class="nav"><a href="#people" onclick="goHome()">候選人</a><a href="#method" class="hide-s" onclick="goHome()">方法說明</a><a href="#" onclick="toggleTheme();return false" aria-label="切換深淺色">◐</a></nav>
+  <nav class="nav"><a href="#promises" onclick="goHome()">兌現度</a><a href="#people" onclick="goHome()">候選人</a><a href="#method" class="hide-s" onclick="goHome()">方法說明</a><a href="#" onclick="toggleTheme();return false" aria-label="切換深淺色">◐</a></nav>
 </div></header>
 
 <main id="home">
   <div class="wrap hero">
     <span class="eyebrow">2026・11・28 投票 ｜ 三重區選民</span>
     <h1>你的想法，<br>跟哪位候選人<em>最合</em>？</h1>
-    <p class="lead">題目依中選會「官方選舉公報」與公開報導設計，涵蓋交通、醫療、育兒、長者、教育、居住等主題。作答後會算出你和每位候選人的適合度，並附上學經歷、事實查核、過往政見兌現情形與正負面紀錄。</p>
+    <p class="lead">題目依中選會「官方選舉公報」與公開報導設計，涵蓋交通、醫療、育兒、長者、教育、居住等主題。作答後會算出你和每位候選人的適合度，並附上學經歷、事實查核與正負面紀錄。<strong>曾當選過的候選人，我們也逐條檢查了他們上一次的政見到底做到多少。</strong></p>
     <div class="stats">
       <div class="stat"><b>20</b><span>位候選人（市長3・議員17）</span></div>
-      <div class="stat"><b>30</b><span>題選擇題，約 6 分鐘</span></div>
+      <div class="stat"><b>30</b><span>題選擇題，每題附白話說明</span></div>
       <div class="stat"><b>100%</b><span>政見取自官方公報原文</span></div>
-      <div class="stat"><b>0</b><span>筆個人資料會被上傳</span></div>
+      <div class="stat"><b>9</b><span>位曾任者的政見兌現度追蹤</span></div>
     </div>
     <div class="modes">
       <button class="mode primary" onclick="start('both')"><span class="tag">推薦・完整版</span><h3>市長＋議員</h3><p>兩張選票一次配對，共 30 題。</p><span class="go">開始作答 →</span></button>
@@ -208,6 +238,22 @@ footer{border-top:1px solid var(--line);padding:28px 0 40px;font-size:13px;color
     </div>
     <p class="notice">本站為民間整理的選民參考工具，非中選會或任何政黨、候選人製作，不代表投票建議。所有資料均附來源，請以<a href="javascript:void(0)" onclick="openPdf('mayor')">市長公報</a>、<a href="javascript:void(0)" onclick="openPdf('d4')">議員公報</a>原文為準。</p>
   </div>
+
+  <section class="block" id="promises"><div class="wrap">
+    <div class="feature">
+      <div><span class="k">特色功能・政見兌現度</span><h2 style="margin-top:6px">上次說的，做到了嗎？</h2>
+      <p>我們找出曾當選者「上一次」選舉公報上的政見，逐條比對任內的實際結果與新聞紀錄，判定為已實現、部分／進行中、未實現或無法查證，算出兌現率。</p></div>
+      <ul class="howto">
+        <li><i style="background:var(--ok);color:#fff">✓</i>已實現：結果已發生，且有該候選人出力的公開證據</li>
+        <li><i style="background:var(--warn);color:#fff">½</i>部分／進行中：進行中，或已完成但查不到本人角色（算半項）</li>
+        <li><i style="background:var(--bad);color:#fff">✕</i>未實現：任內沒有做到</li>
+        <li><i style="background:color-mix(in srgb,var(--paper) 25%,transparent)">?</i>無法查證：找不到資料，不計入分母</li>
+      </ul>
+    </div>
+    <div class="pgrid" id="pgrid"></div>
+    <p class="notice">兌現率＝(已實現＋0.5×部分)÷可查證項目。議員沒有行政權，蘆洲醫院、銀新未來城等大型建設由市府或中央主導，未實現不一定是議員不努力；判定主要依新聞報導，可能低估實際成果。樣本少，請勿單以數字排名。此數字<strong>不影響</strong>配對分數。</p>
+    <p style="font-size:14px;color:var(--ink2)" id="pna"></p>
+  </div></section>
 
   <section class="block" id="people"><div class="wrap">
     <h2>候選人資料庫</h2>
@@ -239,6 +285,8 @@ footer{border-top:1px solid var(--line);padding:28px 0 40px;font-size:13px;color
     <div class="qtext" id="qtext"></div>
     <div class="opts" id="qopts"></div>
     <div class="qnote" id="qnote" hidden></div>
+    <button class="exbtn" id="exbtn" onclick="toggleEx()">💡 這些選項差在哪？看白話說明 <span id="exhint">展開</span></button>
+    <div class="expanel" id="expanel" hidden></div>
     <div class="qfoot">
       <label class="imp"><input type="checkbox" id="qimp" onchange="setImp(this.checked)"> 這題對我特別重要（×2）</label>
       <div class="btns"><button class="btn ghost" onclick="prev()" id="bprev">上一題</button><button class="btn ghost" onclick="skip()">跳過</button><button class="btn solid" onclick="next()" id="bnext" disabled>下一題</button></div>
@@ -265,6 +313,8 @@ footer{border-top:1px solid var(--line);padding:28px 0 40px;font-size:13px;color
 
 <script src="data.js"></script>
 <script src="promise.js"></script>
+<script src="explain_m.js"></script>
+<script src="explain_c.js"></script>
 <script>
 const $ = s => document.querySelector(s);
 const ALL = Object.fromEntries([...MAYOR, ...COUNCIL].map(c => [c.id, c]));
@@ -282,8 +332,20 @@ try{const t=localStorage.getItem("theme");if(t)document.documentElement.dataset.
 function dirTab(t,el){document.querySelectorAll(".dir-tabs .chip").forEach(c=>c.classList.toggle("on",c===el));renderDir(t)}
 function candBtn(c){
   const indicted = c.rec && c.rec.some(r=>r.k==="indict" && !/非本人/.test(r.t));
-  return `<button class="cand" onclick="openD('${c.id}')"><span class="no">${c.no}</span><span><b>${esc(c.name)}${c.inc?'<span class="flag inc">現任</span>':''}${indicted?'<span class="flag ind">起訴中</span>':''}</b><small>${esc(c.party)}</small></span></button>`;
+  return `<button class="cand" onclick="openD('${c.id}')"><span class="no">${c.no}</span><span><b>${esc(c.name)}${c.inc?'<span class="flag inc">現任</span>':''}${indicted?'<span class="flag ind">起訴中</span>':''}</b><small>${esc(c.party)}</small>${pchip(c.id)}</span></button>`;
 }
+function pchip(id){const p=PROMISE[id];if(!p)return"";return p.na?'<span class="pchip na">無過往任期</span>':`<span class="pchip">兌現率 ${p.rate}%</span>`}
+function renderPromises(){
+  const ids=[...MAYOR,...COUNCIL].filter(c=>PROMISE[c.id]&&!PROMISE[c.id].na);
+  $("#pgrid").innerHTML=ids.map(c=>{const p=PROMISE[c.id],tot=p.done+p.partial+p.no;const seg=(n,col)=>tot?`<i style="width:${n/tot*100}%;background:${col}"></i>`:"";
+    return `<button class="pcard" onclick="openD('${c.id}',true)"><div class="ph"><span class="no">${c.no}</span><span class="pn"><b>${esc(c.name)}</b><small>${c.id[0]==="m"?"市長候選人":"議員候選人"}・${esc(c.party)}</small></span></div>
+    <div class="big">${p.rate}%<small>兌現率</small>${tot<5?'<span class="low">樣本少</span>':''}</div>
+    <div class="pbar">${seg(p.done,"var(--ok)")}${seg(p.partial,"var(--warn)")}${seg(p.no,"var(--bad)")}</div>
+    <div class="meta">已實現 ${p.done}・部分 ${p.partial}・未實現 ${p.no}・無法查證 ${p.unk||0}<br>依據：${esc(p.basis)}</div></button>`}).join("");
+  const na=[...MAYOR,...COUNCIL].filter(c=>PROMISE[c.id]&&PROMISE[c.id].na).map(c=>`${c.no}號${c.name}${c.id[0]==="m"?"（市長）":""}`);
+  $("#pna").textContent="不適用（未曾當選該職、沒有過往任期政見可追蹤）："+na.join("、");
+}
+renderPromises();
 function renderDir(t){$("#dir").innerHTML=(t==="m"?MAYOR:COUNCIL).map(candBtn).join("")}
 renderDir("m");
 
@@ -306,6 +368,7 @@ function renderQ(){
   $("#qopts").innerHTML = q.o.map((o,i)=>`<button class="opt ${a.o===i?'sel':''}" onclick="pick(${i})"><span class="let">${"ABCDE"[i]}</span><span>${esc(o.t)}</span></button>`).join("");
   $("#qimp").checked=a.imp; $("#qimp").parentElement.style.visibility = q.race==="integrity"?"hidden":"visible";
   const n=$("#qnote"); if(q.note){n.hidden=false;n.textContent=q.note}else n.hidden=true;
+  renderEx();
   $("#bprev").disabled = idx===0; $("#bnext").disabled = a.o===null;
   $("#bnext").textContent = idx===Q.length-1?"看結果":"下一題";
 }
@@ -316,6 +379,16 @@ function skip(){ans[idx].o=null; if(idx<Q.length-1){idx++;renderQ()}else results
 function prev(){if(idx>0){idx--;renderQ()}}
 function restart(){start(mode)}
 
+let exOpen=false;
+const EX_INT={bg:"「起訴」代表檢察官認為有犯罪嫌疑、送交法院審理，不等於有罪；依無罪推定原則，判決確定前應視為無罪。但也有選民認為，民意代表涉及職務相關的貪污罪嫌，本身就值得納入考量。",o:["若選此項，起訴中的候選人契合度會乘以0.6。適合把「避免爭議風險」看得很重的人。","若選此項，起訴中的候選人契合度會乘以0.85，只作小幅參考。","若選此項，分數完全不調整，只依政見判斷，等待法院判決。"],src:["https://www.cna.com.tw/news/asoc/202608260218.aspx"]};
+function exData(){const q=Q[idx];if(q.race==="integrity")return EX_INT;
+  const arr=q.race==="mayor"?(typeof EXPLAIN_M!=="undefined"?EXPLAIN_M:null):(typeof EXPLAIN_C!=="undefined"?EXPLAIN_C:null);
+  const base=q.race==="mayor"?MAYOR_Q:COUNCIL_Q;const i=base.findIndex(b=>b.q===q.q);return arr&&arr[i]||null}
+function renderEx(){const e=exData();$("#exbtn").hidden=!e;const p=$("#expanel");if(!e){p.hidden=true;return}
+  p.hidden=!exOpen;$("#exhint").textContent=exOpen?"收合":"展開";
+  if(exOpen)p.innerHTML=`<h5>背景</h5><div>${esc(e.bg)}</div>${Q[idx].o.map((o,i)=>`<div class="exo"><b>${"ABCDE"[i]}</b><div><strong>${esc(o.t)}</strong>${esc(e.o[i]||"")}</div></div>`).join("")}
+  ${e.src&&e.src.length?`<div class="exsrc">參考資料：${e.src.map((u,i)=>`<a href="${esc(u)}" target="_blank" rel="noopener">來源${i+1}↗</a>`).join("")}</div>`:""}`}
+function toggleEx(){exOpen=!exOpen;renderEx()}
 /* scoring */
 function score(race, list){
   const tot={},max={},why={};list.forEach(c=>{tot[c.id]=0;max[c.id]=0;why[c.id]=[]});
@@ -350,7 +423,7 @@ function results(){
       $("#rmayor").innerHTML=`<div class="rcard"><h3>新北市長｜適合度</h3><p class="hint">三人加總 100%。「政見契合度」為你與該候選人公報政見的直接吻合程度。</p>
       <div class="stack">${sorted.map((x,i)=>`<i style="width:${x.pct}%;background:${PALETTE[i]}" title="${x.c.name} ${x.pct}%"></i>`).join("")}</div>
       ${sorted.map((x,i)=>`<div class="mrow"><span class="no" style="${i===0?'background:var(--ink);color:var(--paper)':''}">${x.c.no}</span>
-        <div><div class="mname">${esc(x.c.name)}<span>${esc(x.c.party)}</span></div><div class="raw">政見契合度 ${Math.round(x.m*100)}%</div>
+        <div><div class="mname">${esc(x.c.name)}<span>${esc(x.c.party)}</span>${pchip(x.c.id)}</div><div class="raw">政見契合度 ${Math.round(x.m*100)}%</div>
         ${x.why.length?`<ul class="why">${x.why.slice(0,3).map(w=>`<li>【${esc(w.q)}】${esc(w.t)}<br><span style="color:var(--mute)">依據：${esc(w.w)}</span></li>`).join("")}</ul>`:''}
         <button class="linkbtn" onclick="openD('${x.c.id}')">查看完整資料、查核與紀錄</button></div>
         <div class="pct">${x.pct}<small>%</small></div></div>`).join("")}</div>`;
@@ -363,7 +436,7 @@ function results(){
       lead.push(`議員：${r[0].c.no}號 ${r[0].c.name}（契合度 ${Math.round(r[0].m*100)}%）`);
       $("#rcouncil").innerHTML=`<div class="rcard"><h3>市議員第4選區｜政見契合度排行</h3><p class="hint">17 位候選人各自的契合度（0–100%）。本區應選 9 席，但每位選民只能投 1 票；前 9 名以深色標示僅供參考。點名字看完整資料。</p>
       ${r.map((x,i)=>`${i===9?'<div class="divider9">以下為第 10 名之後</div>':''}<div class="crow ${i<9?'top9':''}"><span class="no">${x.c.no}</span>
-        <div><button class="linkbtn" style="margin:0;text-decoration:none;color:var(--ink);font-size:16px" onclick="openD('${x.c.id}')">${esc(x.c.name)}</button> <small style="color:var(--mute)">${esc(x.c.party)}${x.c.inc?'・現任':''}</small>
+        <div><button class="linkbtn" style="margin:0;text-decoration:none;color:var(--ink);font-size:16px" onclick="openD('${x.c.id}')">${esc(x.c.name)}</button> <small style="color:var(--mute)">${esc(x.c.party)}${x.c.inc?'・現任':''}</small>${pchip(x.c.id)}
         ${x.adj?`<div class="adj">${esc(x.adj)}</div>`:''}
         <div class="cbar"><i style="width:${Math.round(x.m*100)}%"></i></div>
         ${i<3&&x.why.length?`<ul class="why">${x.why.slice(0,2).map(w=>`<li>【${esc(w.q)}】${esc(w.t)}</li>`).join("")}</ul>`:''}</div>
@@ -387,15 +460,15 @@ function promiseHTML(id){
   ${p.items?`<ul class="recs" style="margin-top:10px">${p.items.map(it=>`<li><span class="rt ${({"已實現":"victim","部分":"accuse","未實現":"indict","無法查證":"none"})[it.s]||'none'}">${esc(it.s)}</span>${esc(it.t)}${srcLink(it.u)}</li>`).join("")}</ul>`:""}
   ${p.note?`<p style="font-size:12.5px;color:var(--mute);margin:8px 0 0">${esc(p.note)}</p>`:""}</div>`;
 }
-function openD(id){
+function openD(id,toPromise){
   const c=ALL[id], isM=id[0]==="m";
   $("#drawer").innerHTML=`<div class="dhead"><span class="no">${c.no}</span><div><h3>${esc(c.name)}</h3><small>${esc(c.party)}・${esc(c.gender)}・${esc(c.born)}${c.inc?"・現任":""}</small></div><button class="x" onclick="closeD()" aria-label="關閉">×</button></div>
   <div class="dbody">
+    <div class="dsec" id="dprom"><h4>過往政見兌現度</h4>${promiseHTML(id)}</div>
     <div class="dsec"><h4>學歷（公報）</h4><ul>${c.edu.map(e=>`<li>${esc(e)}</li>`).join("")}</ul></div>
     <div class="dsec"><h4>經歷（公報）</h4><ul>${c.exp.map(e=>`<li>${esc(e)}</li>`).join("")}</ul></div>
     <div class="dsec"><h4>公報政見摘要</h4><ul>${c.platform.map(e=>`<li>${esc(e)}</li>`).join("")}</ul><p style="font-size:13px;margin:6px 0 0"><a href="javascript:void(0)" onclick="openPdf('${isM?"mayor":"d4"}')">查看官方公報原文 ↗</a></p></div>
     ${c.check?`<div class="dsec"><h4>事實查核</h4><ul class="recs">${c.check.map(r=>`<li><span class="rt ${r.s}">${RT[r.s]}</span>${esc(r.t)}${srcLink(r.u)}</li>`).join("")}</ul></div>`:""}
-    <div class="dsec"><h4>過往政見兌現度</h4>${promiseHTML(id)}</div>
     <div class="dsec"><h4>正面紀錄</h4><ul class="recs">${c.pos.map(r=>`<li>${esc(r.t)}${srcLink(r.u)}</li>`).join("")}</ul></div>
     <div class="dsec"><h4>爭議與司法紀錄</h4><ul class="recs">${c.rec.map(r=>`<li><span class="rt ${r.k}">${RT[r.k]}</span>${esc(r.t)}${srcLink(r.u)}</li>`).join("")}</ul>
     <p style="font-size:12.5px;color:var(--mute)">「指控」不等於事實；「起訴」仍適用無罪推定；「查無」只代表公開資料中未找到。</p></div>
