@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>政見配對 2026・三重</title>
+<title>政見配對 2026・雙北</title>
 <meta name="description" content="2026 新北市長與市議員第4選區（三重、蘆洲）政見配對測驗。題目依中選會官方選舉公報設計，附候選人學經歷、事實查核、政見兌現度與正負面公開紀錄。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -271,6 +271,19 @@ footer{border-top:1px solid var(--line);padding:28px 0 40px;font-size:13px;color
 .pk-load{color:var(--mute)}
 div.mode{cursor:default;opacity:.7}
 #regionBody .stats{margin-top:22px}
+
+/* in-page PDF generation */
+body.pdfmode{--paper:#fff;--card:#fff;--ink:#1c1b19;--ink2:#4a4740;--mute:#777;--line:#ddd;--accent:#b3761b;--accent-soft:#f3e6cf;--accent-ink:#7a4f0f;--ok:#2f6f4f;--warn:#a86a12;--bad:#a33a2c;--info:#3a5a78;--shadow:none}
+body.pdfmode #results{background:#fff;color:#1c1b19;width:720px;box-sizing:border-box;padding:16px;overflow:hidden}
+body.pdfmode #results .rcard{box-sizing:border-box;max-width:100%}
+body.pdfmode #results .share,body.pdfmode #results .mrow .linkbtn,body.pdfmode #rnote .linkbtn{display:none!important}
+body.pdfmode #results .wrap{max-width:none;padding:0}
+body.pdfmode .print-only{display:block}
+body.pdfmode .pr-c{border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:10px 0;font-size:12.5px;line-height:1.6}
+body.pdfmode .pr-c h4{margin:0 0 4px;font-family:"Noto Serif TC";font-size:15px}
+body.pdfmode .pr-c ul{margin:2px 0 6px;padding-left:18px}
+body.pdfmode .pr-h{font-family:"Noto Serif TC";font-size:20px;margin:24px 0 4px}
+.pdf-wait{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.55);display:grid;place-items:center;color:#fff;font-size:16px}
 </style>
 <body>
 <header class="top"><div class="wrap">
@@ -361,7 +374,7 @@ div.mode{cursor:default;opacity:.7}
 
 <main id="results"><div class="wrap">
   <div class="rhero"><span class="eyebrow" id="reyebrow">你的配對結果</span><h1 style="font-size:clamp(30px,5vw,46px);margin-bottom:6px">依你的回答，<br>最適合你的候選人是</h1><p class="lead" id="rlead"></p>
-    <div class="share"><button class="btn" onclick="restart()">重新作答</button><button class="btn solid" onclick="openShare()">📱 產生分享圖卡</button><button class="btn ghost" onclick="printAppendix();window.print()">存成 PDF（完整版）</button><button class="btn ghost" onclick="goHome()">回首頁</button></div>
+    <div class="share"><button class="btn" onclick="restart()">重新作答</button><button class="btn solid" onclick="openShare()">📱 產生分享圖卡</button><button class="btn ghost" id="pdfbtn" onclick="savePdf()">存成 PDF（完整版）</button><button class="btn ghost" onclick="goHome()">回首頁</button></div>
   </div>
   <div id="rmayor"></div>
   <div id="rcouncil"></div>
@@ -621,6 +634,25 @@ function printAppendix(){
     <b>正面紀錄：</b>${c.pos.map(r=>esc(r.t)).join("；")}<br>
     <b>爭議與司法紀錄：</b>${c.rec.map(r=>`［${RT[r.k]}］${esc(r.t)}`).join("；")}</div>`};
   $("#rprint").innerHTML=`<div class="pr-h">附錄：候選人詳細資料</div><p style="font-size:12px;color:var(--mute)">${LAST.mayor?`市長候選人 ${MAYOR.length} 位`:""}${LAST.mayor&&LAST.council?"、":""}${LAST.council?`議員契合度前 ${S} 名`:""}。各筆資料的來源連結請見網站候選人頁面。</p>${list.map(card).join("")}`;
+}
+
+function loadLib(src){return new Promise((res,rej)=>{const s=document.createElement("script");s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s)})}
+async function savePdf(){
+  const b=$("#pdfbtn"), old=b.textContent; b.disabled=true; b.textContent="產生中…";
+  const wait=document.createElement("div");wait.className="pdf-wait";wait.textContent="正在產生 PDF，請稍候…";document.body.appendChild(wait);
+  try{
+    if(!window.html2pdf) await loadLib("https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js");
+    printAppendix(); document.body.classList.add("pdfmode"); window.scrollTo(0,0);
+    const blob=await html2pdf().set({margin:[10,8,10,8],filename:"政見配對結果.pdf",image:{type:"jpeg",quality:0.92},
+      html2canvas:{scale:2,useCORS:true,backgroundColor:"#ffffff",windowWidth:720,width:720,scrollX:0,scrollY:0},jsPDF:{unit:"mm",format:"a4",orientation:"portrait"},
+      pagebreak:{mode:["css","legacy"],avoid:[".mrow",".crow",".pr-c",".why li"]}}).from($("#results")).outputPdf("blob");
+    document.body.classList.remove("pdfmode");
+    const f=new File([blob],"政見配對結果.pdf",{type:"application/pdf"});
+    let done=false;
+    try{if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:"我的政見配對結果"});done=true}}catch(e){if(e&&e.name==="AbortError")done=true}
+    if(!done){const u=URL.createObjectURL(blob);const a=document.createElement("a");a.href=u;a.download="政見配對結果.pdf";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>{if(/Line|FBAN|FBAV|Instagram|Threads|; wv\)/i.test(navigator.userAgent))location.href=u},600)}
+  }catch(e){document.body.classList.remove("pdfmode");alert("這個瀏覽器無法產生 PDF。請點右上角選單，改用 Safari 或 Chrome 開啟本頁後再試，或使用「產生分享圖卡」截圖。")}
+  wait.remove(); b.disabled=false; b.textContent=old;
 }
 window.addEventListener("beforeprint",()=>{if($("#results").style.display==="block")printAppendix()});
 
