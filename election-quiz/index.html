@@ -583,7 +583,7 @@ function interpret(){
         return `<li>【${esc(x.q.cat)}】你選「${esc(o.t)}」→ 加分較多：${ids.length?ids.map(c=>`${c.no}號 ${esc(c.name)}`).join("、"):"（公報未明確主張此方向的候選人）"}</li>`}).join("")+`</ul>`;
   } else h+=`<p class="hint" style="margin-bottom:8px">你沒有把任何題目標成「特別重要」，所有題目權重相同。</p>`;
   const top=[...(LAST.mayor||[]).slice(0,2),...(LAST.council||[]).slice(0,3)].map(x=>x.c);
-  h+=`<p style="margin:14px 0 6px;font-size:15px"><b>適配度只代表「候選人這次公報提出的政見」與你的想法有多接近</b>，不代表他是否做得到。請搭配「過往政見兌現度」一起看：</p><ul class="why">`+
+  h+=`<p style="margin:14px 0 6px;font-size:15px"><b>適配度只代表「候選人這次公報提出的政見」與你的想法有多接近</b>，不代表他是否做得到。請搭配「候選人詳細資料」一起看：</p><ul class="why">`+
     top.map(c=>{const p=PROMISE[c.id];return `<li>${c.no}號 ${esc(c.name)}：${p?(p.na?"無過往任期可追蹤":p.norate?"上屆無個人公報政見，不計算兌現率（見說明）":`過往政見兌現率 ${p.rate}%（已實現${p.done}・部分${p.partial}・未實現${p.no}）`):"—"}　<button class="linkbtn" style="margin:0" onclick="openD('${c.id}')">看細節</button></li>`}).join("")+`</ul></div>`;
   return h;
 }
