@@ -457,7 +457,7 @@ function candBtn(c){
   const flagged = TARGETS.includes(c.id);
   return `<button class="cand" onclick="openD('${c.id}')"><span class="no">${c.no}</span><span><b>${esc(c.name)}${c.inc?'<span class="flag inc">現任</span>':''}${flagged?'<span class="flag ind">司法程序中</span>':''}</b><small>${esc(c.party)}</small>${pchip(c.id)}</span></button>`;
 }
-function pchip(id){const p=PROMISE[id];if(!p)return"";return p.na?'<span class="pchip na">無過往任期</span>':p.norate?'<span class="pchip">過往政見：無個人公報（見說明）</span>':`<span class="pchip">過往政見兌現率 ${p.rate}%</span>`}
+function pchip(id){const p=PROMISE[id];if(!p)return"";return p.na?'<span class="pchip na">無過往任期</span>':p.norate?'<span class="pchip">未計兌現率（見說明）</span>':`<span class="pchip">過往政見兌現率 ${p.rate}%</span>`}
 function renderPromises(){
   const list=[...MAYOR,...COUNCIL];
   const ids=list.filter(c=>PROMISE[c.id]&&!PROMISE[c.id].na);
