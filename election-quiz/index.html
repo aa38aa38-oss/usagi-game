@@ -102,7 +102,7 @@ h2{font-family:"Noto Serif TC";font-size:clamp(24px,3.4vw,32px);margin:0 0 6px}
 .opt.sel{border-color:var(--accent);background:var(--accent-soft)}
 .opt.sel .let{background:var(--accent);border-color:var(--accent);color:#fff}
 .qfoot{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:20px}
-.nextinline{display:block;margin:-4px 0 0 auto;padding:10px 22px}.impbox{border:1.5px dashed var(--accent);background:var(--accent-soft);border-radius:12px;padding:12px 14px;margin-bottom:14px}.impbox p{margin:6px 0 0 26px;font-size:13px;line-height:1.6;color:var(--ink2)}.imp{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--ink2);cursor:pointer;user-select:none}
+.nextinline{display:block;margin:-4px 0 0 auto;padding:10px 22px}.impbox{border:1.5px dashed var(--accent);background:var(--accent-soft);border-radius:10px;padding:8px 12px;margin-bottom:12px}.impbox p{margin:2px 0 0 26px;font-size:12.5px;line-height:1.4;color:var(--ink2)}.imp{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--ink2);cursor:pointer;user-select:none}
 .imp input{width:18px;height:18px;accent-color:var(--accent)}
 .btns{display:flex;gap:8px}
 .btn{border:1.5px solid var(--ink);background:transparent;color:var(--ink);padding:9px 18px;border-radius:10px;font-weight:700;font-size:15px}
@@ -360,7 +360,7 @@ body.pdfmode .pr-h{font-family:"Noto Serif TC";font-size:20px;margin:24px 0 4px}
   <div class="qcard">
     <div class="qnum" id="qnum"></div>
     <div class="qtext" id="qtext"></div>
-    <div class="impbox" id="impbox"><label class="imp"><input type="checkbox" id="qimp" onchange="setImp(this.checked)"> <b>這題對我特別重要（×2）</b></label><p>可以先勾再作答。勾選後，這題的計分會算<b>兩倍</b>：你選的選項與候選人政見越吻合，該候選人的適合度就拉得越高；不吻合時也會被拉得更低。結果頁會列出哪些「特別重要」的題目讓誰明顯加分。</p></div>
+    <div class="impbox" id="impbox"><label class="imp"><input type="checkbox" id="qimp" onchange="setImp(this.checked)"> <b>這題對我特別重要（×2）</b></label><p>勾選後這題計分<b>×2</b>，對適合度影響加倍。</p></div>
     <div class="opts" id="qopts"></div>
     <div class="qnote" id="qnote" hidden></div>
     <button class="exbtn" id="exbtn" onclick="toggleEx()">💡 這些選項差在哪？看白話說明 <span id="exhint">展開</span></button>
