@@ -11,7 +11,7 @@ REGISTER({
  "women": 3,
  "bulletin": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/05%E7%9B%B4%E8%BD%84%E5%B8%82%E8%AD%B0%E5%93%A1/115%E5%B9%B4/01%E8%87%BA%E5%8C%97%E5%B8%82/%E8%87%BA%E5%8C%97%E5%B8%82%E7%AC%AC15%E5%B1%86%E8%AD%B0%E5%93%A1%E7%AC%AC6%E9%81%B8%E8%88%89%E5%8D%80%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B11117.pdf",
  "asof": "2026-11-21",
- "verified": "r1:2026-11-21",
+ "verified": "r1:2026-11-21,r2:2026-11-23",
  "integrityTargets": [
   "c11"
  ],
@@ -1231,8 +1231,8 @@ REGISTER({
    "rec": [
     {
      "k": "victim",
-     "t": "2023/6 公開2022年遭朱學恒強吻性騷擾；朱經法院判決有罪（本人為被害方）。",
-     "u": "https://news.tvbs.com.tw/politics/2146836"
+     "t": "2023/6 公開2022年遭朱學恒強吻；朱以強制猥褻罪經台北地院2024/3一審判1年2月、高院2024/11/14二審改判11月，朱未上訴定讞並於2025年1月入監（本人為被害方）。",
+     "u": "https://www.ettoday.net/news/20241114/2854757.htm"
     },
     {
      "k": "critique",
