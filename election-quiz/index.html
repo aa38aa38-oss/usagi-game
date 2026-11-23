@@ -102,7 +102,7 @@ h2{font-family:"Noto Serif TC";font-size:clamp(24px,3.4vw,32px);margin:0 0 6px}
 .opt.sel{border-color:var(--accent);background:var(--accent-soft)}
 .opt.sel .let{background:var(--accent);border-color:var(--accent);color:#fff}
 .qfoot{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:20px}
-.impbox{border:1.5px dashed var(--accent);background:var(--accent-soft);border-radius:12px;padding:12px 14px;margin-bottom:14px}.impbox p{margin:6px 0 0 26px;font-size:13px;line-height:1.6;color:var(--ink2)}.imp{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--ink2);cursor:pointer;user-select:none}
+.nextinline{display:block;margin:-4px 0 0 auto;padding:10px 22px}.impbox{border:1.5px dashed var(--accent);background:var(--accent-soft);border-radius:12px;padding:12px 14px;margin-bottom:14px}.impbox p{margin:6px 0 0 26px;font-size:13px;line-height:1.6;color:var(--ink2)}.imp{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--ink2);cursor:pointer;user-select:none}
 .imp input{width:18px;height:18px;accent-color:var(--accent)}
 .btns{display:flex;gap:8px}
 .btn{border:1.5px solid var(--ink);background:transparent;color:var(--ink);padding:9px 18px;border-radius:10px;font-weight:700;font-size:15px}
@@ -504,7 +504,7 @@ function renderQ(){
   $("#qnum").textContent = `第 ${idx+1} 題 / 共 ${Q.length} 題`;
   $("#qtext").textContent = q.q;
   $("#qprog").style.width = (idx/Q.length*100)+"%";
-  $("#qopts").innerHTML = q.o.map((o,i)=>`<button class="opt ${a.o===i?'sel':''}" onclick="pick(${i})"><span class="let">${"ABCDEF"[i]}</span><span>${esc(o.t)}</span></button>`).join("");
+  $("#qopts").innerHTML = q.o.map((o,i)=>`<button class="opt ${a.o===i?'sel':''}" onclick="pick(${i})"><span class="let">${"ABCDEF"[i]}</span><span>${esc(o.t)}</span></button>`+(a.o===i?`<button class="btn solid nextinline" onclick="next()">${idx===Q.length-1?"看結果":"下一題"} →</button>`:"")).join("");
   $("#qimp").checked=a.imp; $("#impbox").style.display = q.race==="integrity"?"none":"block";
   const n=$("#qnote"); if(q.note){n.hidden=false;n.textContent=q.note}else n.hidden=true;
   renderEx();
