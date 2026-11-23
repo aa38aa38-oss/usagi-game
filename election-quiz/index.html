@@ -102,7 +102,7 @@ h2{font-family:"Noto Serif TC";font-size:clamp(24px,3.4vw,32px);margin:0 0 6px}
 .opt.sel{border-color:var(--accent);background:var(--accent-soft)}
 .opt.sel .let{background:var(--accent);border-color:var(--accent);color:#fff}
 .qfoot{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:20px}
-.imp{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--ink2);cursor:pointer;user-select:none}
+.impbox{border:1.5px dashed var(--accent);background:var(--accent-soft);border-radius:12px;padding:12px 14px;margin-bottom:14px}.impbox p{margin:6px 0 0 26px;font-size:13px;line-height:1.6;color:var(--ink2)}.imp{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--ink2);cursor:pointer;user-select:none}
 .imp input{width:18px;height:18px;accent-color:var(--accent)}
 .btns{display:flex;gap:8px}
 .btn{border:1.5px solid var(--ink);background:transparent;color:var(--ink);padding:9px 18px;border-radius:10px;font-weight:700;font-size:15px}
@@ -360,12 +360,12 @@ body.pdfmode .pr-h{font-family:"Noto Serif TC";font-size:20px;margin:24px 0 4px}
   <div class="qcard">
     <div class="qnum" id="qnum"></div>
     <div class="qtext" id="qtext"></div>
+    <div class="impbox" id="impbox"><label class="imp"><input type="checkbox" id="qimp" onchange="setImp(this.checked)"> <b>這題對我特別重要（×2）</b></label><p>可以先勾再作答。勾選後，這題的計分會算<b>兩倍</b>：你選的選項與候選人政見越吻合，該候選人的適合度就拉得越高；不吻合時也會被拉得更低。結果頁會列出哪些「特別重要」的題目讓誰明顯加分。</p></div>
     <div class="opts" id="qopts"></div>
     <div class="qnote" id="qnote" hidden></div>
     <button class="exbtn" id="exbtn" onclick="toggleEx()">💡 這些選項差在哪？看白話說明 <span id="exhint">展開</span></button>
     <div class="expanel" id="expanel" hidden></div>
     <div class="qfoot">
-      <label class="imp"><input type="checkbox" id="qimp" onchange="setImp(this.checked)"> 這題對我特別重要（×2）</label>
       <div class="btns"><button class="btn ghost" onclick="prev()" id="bprev">上一題</button><button class="btn ghost" onclick="skip()">跳過</button><button class="btn solid" onclick="next()" id="bnext" disabled>下一題</button></div>
     </div>
   </div>
@@ -505,13 +505,13 @@ function renderQ(){
   $("#qtext").textContent = q.q;
   $("#qprog").style.width = (idx/Q.length*100)+"%";
   $("#qopts").innerHTML = q.o.map((o,i)=>`<button class="opt ${a.o===i?'sel':''}" onclick="pick(${i})"><span class="let">${"ABCDEF"[i]}</span><span>${esc(o.t)}</span></button>`).join("");
-  $("#qimp").checked=a.imp; $("#qimp").parentElement.style.visibility = q.race==="integrity"?"hidden":"visible";
+  $("#qimp").checked=a.imp; $("#impbox").style.display = q.race==="integrity"?"none":"block";
   const n=$("#qnote"); if(q.note){n.hidden=false;n.textContent=q.note}else n.hidden=true;
   renderEx();
   $("#bprev").disabled = idx===0; $("#bnext").disabled = a.o===null;
   $("#bnext").textContent = idx===Q.length-1?"看結果":"下一題";
 }
-function pick(i){ans[idx].o=i;if(document.activeElement)document.activeElement.blur();renderQ();setTimeout(()=>{if(ans[idx].o===i)next()},260)}
+function pick(i){ans[idx].o=i;if(document.activeElement)document.activeElement.blur();renderQ()}
 function setImp(v){ans[idx].imp=v}
 function next(){if(ans[idx].o===null)return; if(idx<Q.length-1){idx++;exOpen=false;renderQ();window.scrollTo(0,0)}else results()}
 function skip(){ans[idx].o=null; if(idx<Q.length-1){idx++;exOpen=false;renderQ();window.scrollTo(0,0)}else results()}
